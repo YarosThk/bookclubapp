@@ -1,8 +1,11 @@
 const express = require('express');
-const dotenv = require('dotenv').config();
+const colors = require('colors'); // to add colors in console messages
+const dotenv = require('dotenv').config(); // to have access to -env variables
 const { logErrors, errorHandler } = require('./middleware/errorHandler');
+const { connectDB } = require('./config/db');
 
 const port = process.env.PORT || 3000;
+connectDB();
 const app = express();
 
 // Middleware in order to parse incoming json and urlencoded payloads
