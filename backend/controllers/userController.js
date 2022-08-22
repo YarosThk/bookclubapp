@@ -97,7 +97,7 @@ const loginUser = async (req, res, next) => {
 // @access Private
 const getUser = async (req, res, next) => {
   try {
-    res.json({ message: 'Get user data' });
+    res.json({ message: 'Get user data', payload: req.user });
   } catch (error) {
     next(error);
   }

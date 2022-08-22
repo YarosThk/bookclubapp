@@ -10,23 +10,24 @@ const authMiddleware = async (req, res, next) => {
       const token = req.headers.authorization.split(' ')[1];
       if (!token) {
         res.status(401);
-        throw new Error('User not authorized');
+        throw new Error('User not authorized, no token');
       }
 
       // Decode and verify the token for tampering
       const decodedToken = jwt.verify(token, secret);
-
       // Get user id from the token since this was in the payload
-      const decodedUserId = decodedToken.id;
+      const decodedUserId = decodedToken.userId;
       // Assign a user to our request object so it's accesible in the other route handlers
       req.user = await User.findById(decodedUserId).select('-password');
       next();
+    } else {
+      res.status(401);
+      throw new Error('User not authorized, no token');
     }
   } catch (error) {
+    res.status(401); // Not authorized
     next(error);
   }
-
-  next();
 };
 
 module.exports = authMiddleware;
