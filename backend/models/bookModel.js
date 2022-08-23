@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 const bookSchema = new Schema(
   {
     user: {
-      // We need to associate a user with a Book
+      // We need to associate a user with a Book through user id
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'User',

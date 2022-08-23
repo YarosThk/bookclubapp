@@ -12,9 +12,11 @@ const app = express();
 // and have access to req.body data
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 // Using Router for /api/books routes
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/comments', require('./routes/commentRoutes'));
 
 app.use(logErrors);
 app.use(errorHandler);

@@ -5,8 +5,9 @@ const User = require('../models/userModel');
 // Secret for JWT token
 const secret = process.env.JWT_SECRET;
 
-// Generate JWT Token
-const generateAccessToken = (userId) => jwt.sign({ userId }, secret, { expiresIn: '30d' });
+// Generate JWT Token with user id and user role (regular user or admin)
+const generateAccessToken = (userId, userRole) =>
+  jwt.sign({ userId, userRole }, secret, { expiresIn: '30d' });
 
 // @desc Register a User
 // @route POST api/users
@@ -43,7 +44,7 @@ const registerUser = async (req, res, next) => {
           _id: user.id,
           name: user.name,
           email: user.email,
-          token: generateAccessToken(user.id),
+          token: generateAccessToken(user.id, user.role),
           // token: generateAccessToken(user._id),
         },
       });
@@ -79,7 +80,7 @@ const loginUser = async (req, res, next) => {
           _id: user.id,
           name: user.name,
           email: user.email,
-          token: generateAccessToken(user.id),
+          token: generateAccessToken(user.id, user.role),
           // token: generateAccessToken(user._id),
         },
       });
@@ -87,6 +88,15 @@ const loginUser = async (req, res, next) => {
       res.status(400);
       res.json({ message: 'Invalid credentials' });
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getUserComments = async (req, res, next) => {
+  // PENDING TO IMPLEMENT
+  try {
+    res.json({ message: 'Get user comments', payload: req.user });
   } catch (error) {
     next(error);
   }
@@ -106,5 +116,6 @@ const getUser = async (req, res, next) => {
 module.exports = {
   registerUser,
   loginUser,
+  getUserComments,
   getUser,
 };
