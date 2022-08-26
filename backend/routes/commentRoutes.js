@@ -1,13 +1,16 @@
 const express = require('express');
 const { createComment, updateComment, deleteComment } = require('../controllers/commentController');
 const authMiddleware = require('../middleware/authMiddleware');
-const adminAuthMiddleware = require('../middleware/adminAuthMiddleware');
+const postedByMiddleware = require('../middleware/postedByMiddleware');
+const roleCheckMiddleware = require('../middleware/roleCheckMiddleware');
 
 const router = express.Router();
 
 // '/api/comments'
-router.post('/', authMiddleware, createComment); // Post a comment on a book, authorized user
-router.put('/:commentId', authMiddleware, updateComment); // Update a comment, only original user access
-router.delete('/:commentId', authMiddleware, adminAuthMiddleware, deleteComment); // Delete a comment, admin/original user access
+router.param('commentId', postedByMiddleware);
+
+router.post('/', authMiddleware, createComment);
+router.put('/:commentId', authMiddleware, roleCheckMiddleware, updateComment);
+router.delete('/:commentId', authMiddleware, roleCheckMiddleware, deleteComment);
 
 module.exports = router;

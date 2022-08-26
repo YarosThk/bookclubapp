@@ -13,7 +13,6 @@ const bookSchema = new Schema(
     title: { type: String, required: [true, 'Please add a title.'] },
     author: { type: String, required: [true, 'Please add the author.'] },
     description: { type: String, required: [true, 'Please add a description.'] },
-    comments: [{ user: String, body: String, date: Date }],
     // meta: {
     //   likes: { type: Number, default: 0 },
     // },

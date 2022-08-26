@@ -7,10 +7,11 @@ const { Schema } = mongoose;
 
 const commentSchema = new Schema(
   {
-    user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
-    book_id: { type: Schema.Types.ObjectId, required: true, ref: 'Book' },
-    name: { type: String, required: true },
-    comment_body: { type: String, required: [true, 'Please provide comment body.'] },
+    userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+    bookId: { type: Schema.Types.ObjectId, required: true, ref: 'Book' },
+    userName: { type: String, required: true },
+    edited: { type: Boolean, default: false, requiered: true },
+    commentBody: { type: String, required: [true, 'Please provide comment body.'] },
   },
   { timestamps: true }
 );
