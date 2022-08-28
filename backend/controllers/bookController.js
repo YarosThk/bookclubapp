@@ -1,14 +1,44 @@
 const Book = require('../models/bookModel');
-const Comment = require('../models/commentModel');
 
 // @desc GET all books
 // @route GET api/books/
 // @access Public
+// const getAllBooks = async (req, res, next) => {
+//   try {
+//     const allGoals = await Book.find();
+//     res.status(200);
+//     res.json({ message: 'Get all books', payload: allGoals });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+// @desc GET all books
+// @route GET api/books/?page=1
+// @access Public
 const getAllBooks = async (req, res, next) => {
+  // As pointed out in internet resources this is not a really scalable way, since skip is not really efficient with big colletions
+  // Also if any new document is inserted in between queries, we can have repeated document on a new page from previous page.
+  // Another solutions is to implement some kind of cursor based on timestamps.
   try {
-    const allGoals = await Book.find();
+    const page = parseInt(req.query.page, 10) || 1; // Queried page
+    const pageSize = 5; // Books per page
+
+    const documentsCount = await Book.countDocuments();
+    const totalPages = Math.ceil(documentsCount / pageSize);
+
+    // Maybe need an if clause to check that page should not be bigget than totalPages
+    const results = await Book.find()
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort('-createdAt');
+
     res.status(200);
-    res.json({ message: 'Get all books', payload: allGoals });
+    res.json({
+      message: 'Get all books',
+      paginationInfo: { page, totalPages, pageSize, documentsCount },
+      payload: results,
+    });
   } catch (error) {
     next(error);
   }
@@ -32,36 +62,6 @@ const getBook = async (req, res, next) => {
     }
     res.status(200);
     res.json({ message: `Get specific book with id: ${book.id}`, payload: book });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// @desc GET book comments
-// @route GET api/books/:bookId
-// @access Public
-const getBookComments = async (req, res, next) => {
-  try {
-    if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
-      // Checking if Id formad is correct before querying with wrong id
-      res.status(400);
-      throw new Error('Invalid book Id');
-    }
-    if (!req.params.bookId) {
-      res.status(400);
-      throw new Error('Missing book id parameter');
-    }
-
-    const book = await Book.findById(req.params.bookId);
-    if (!book) {
-      res.status(400);
-      throw new Error('Book with this id does not exist');
-    }
-
-    const comments = await Comment.find({ bookId: req.params.bookId });
-
-    res.status(200);
-    res.json({ message: 'All comments for the book', payload: comments });
   } catch (error) {
     next(error);
   }
@@ -155,7 +155,6 @@ const deleteBook = async (req, res, next) => {
 module.exports = {
   getAllBooks,
   getBook,
-  getBookComments,
   createBook,
   updateBook,
   deleteBook,

@@ -1,4 +1,82 @@
+const User = require('../models/userModel');
+const Book = require('../models/bookModel');
 const Comment = require('../models/commentModel');
+
+// @desc GET book comments
+// @route GET api/books/:bookId/comments
+// @access Public
+const getBookComments = async (req, res, next) => {
+  // NEED TO IMPLEMENT PAGINATION
+  try {
+    if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
+      // Checking if Id formad is correct before querying with wrong id
+      res.status(400);
+      throw new Error('Invalid book Id');
+    }
+    if (!req.params.bookId) {
+      res.status(400);
+      throw new Error('Missing book id parameter');
+    }
+
+    const book = await Book.findById(req.params.bookId);
+    if (!book) {
+      res.status(400);
+      throw new Error('Book with this id does not exist');
+    }
+
+    const comments = await Comment.find({ bookId: req.params.bookId });
+
+    res.status(200);
+    res.json({ message: 'All comments for the book', payload: comments });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc Get user comments
+// @route POST api/users/:userId/comments
+// @access Private
+const getUserComments = async (req, res, next) => {
+  // NEED TO IMPLEMENT PAGINATION
+  try {
+    if (!req.params.userId.match(/^[0-9a-fA-F]{24}$/)) {
+      // Checking if Id formad is correct before querying with wrong id
+      res.status(400);
+      throw new Error('Invalid user Id');
+    }
+
+    if (!req.params.userId) {
+      res.status(400);
+      throw new Error('Missing user id parameter');
+    }
+
+    // Check if user found after authorization
+    if (!req.user.id) {
+      res.status(400);
+      throw new Error('User not found');
+    }
+
+    // To assure that user is able to get only his/her comments
+    if (req.params.userId !== req.user.id) {
+      res.status(401);
+      throw new Error('User not authorized');
+    }
+
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      // Check just in case user doesn't exist, unlikely since it's coming from a token
+      res.status(400);
+      throw new Error('User not found');
+    }
+
+    const comments = await Comment.find({ userId: req.params.userId });
+
+    res.json({ message: 'Get user comments', payload: comments });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // @desc Create a comment
 // @route POST api/comments/
@@ -62,6 +140,8 @@ const deleteComment = async (req, res, next) => {
 };
 
 module.exports = {
+  getBookComments,
+  getUserComments,
   createComment,
   updateComment,
   deleteComment,

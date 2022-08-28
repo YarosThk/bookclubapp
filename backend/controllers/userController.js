@@ -93,27 +93,6 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-const getUserComments = async (req, res, next) => {
-  // PENDING TO IMPLEMENT
-  try {
-    if (!req.params.userId.match(/^[0-9a-fA-F]{24}$/)) {
-      // Checking if Id formad is correct before querying with wrong id
-      res.status(400);
-      throw new Error('Invalid user Id');
-    }
-
-    // Check if user found after authorization
-    if (!req.user.id) {
-      res.status(401);
-      throw new Error('User not found');
-    }
-
-    res.json({ message: 'Get user comments', payload: req.user });
-  } catch (error) {
-    next(error);
-  }
-};
-
 // @desc Get user data
 // @route POST api/users/me
 // @access Private
@@ -134,6 +113,5 @@ const getUser = async (req, res, next) => {
 module.exports = {
   registerUser,
   loginUser,
-  getUserComments,
   getUser,
 };
