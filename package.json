@@ -6,11 +6,13 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "client": "npm start --prefix frontend"
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently 'npm run server' 'npm run client'"
   },
   "author": "Yaros",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "dotenv": "^16.0.1",
@@ -19,6 +21,7 @@
     "mongoose": "^6.5.2"
   },
   "devDependencies": {
+    "concurrently": "^7.3.0",
     "eslint": "^8.22.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
