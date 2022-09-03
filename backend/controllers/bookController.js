@@ -1,19 +1,6 @@
 const Book = require('../models/bookModel');
 
 // @desc GET all books
-// @route GET api/books/
-// @access Public
-// const getAllBooks = async (req, res, next) => {
-//   try {
-//     const allGoals = await Book.find();
-//     res.status(200);
-//     res.json({ message: 'Get all books', payload: allGoals });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// @desc GET all books
 // @route GET api/books/?page=1
 // @access Public
 const getAllBooks = async (req, res, next) => {
@@ -35,7 +22,6 @@ const getAllBooks = async (req, res, next) => {
 
     res.status(200);
     res.json({
-      message: 'Get all books',
       paginationInfo: { page, totalPages, pageSize, documentsCount },
       payload: results,
     });
@@ -61,7 +47,7 @@ const getBook = async (req, res, next) => {
       throw new Error('Book with this id does not exist');
     }
     res.status(200);
-    res.json({ message: `Get specific book with id: ${book.id}`, payload: book });
+    res.json({ book });
   } catch (error) {
     next(error);
   }
@@ -84,7 +70,7 @@ const createBook = async (req, res, next) => {
     });
 
     res.status(200);
-    res.json({ message: `Create specific book with name: ${book.title}`, payload: book });
+    res.json({ book });
   } catch (error) {
     next(error);
   }
@@ -116,7 +102,7 @@ const updateBook = async (req, res, next) => {
     const update = { user: req.user.id, ...req.body }; // When another admin updates, we want to update the relational user id of the admin
     const updatedBook = await Book.findByIdAndUpdate(req.params.id, update, { new: true });
     res.status(200);
-    res.json({ message: `Update a book with id: ${updatedBook.id}`, payload: updatedBook });
+    res.json({ updatedBook });
   } catch (error) {
     next(error);
   }
@@ -146,7 +132,7 @@ const deleteBook = async (req, res, next) => {
     }
     book.remove();
     res.status(200);
-    res.json({ message: `Delete a book}`, id: req.params.bookId });
+    res.json({ id: req.params.bookId });
   } catch (error) {
     next(error);
   }

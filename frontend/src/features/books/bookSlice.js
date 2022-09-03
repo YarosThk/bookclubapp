@@ -3,15 +3,16 @@ import bookServices from './bookServices';
 
 const initialState = {
   books: [],
+  pagination: {},
   isLoading: false,
   isError: false,
-  isSuccess: true,
+  isSuccess: false,
   message: '',
 };
 export const getAllBooks = createAsyncThunk('book/getAllBooks', async (page, thunkAPI) => {
-  page = 1;
   try {
-    return await bookServices.getBooksRequest(page);
+    //return await bookServices.getBooksRequest(page);
+    return await bookServices.simulateAsync();
   } catch (error) {
     console.log(error);
     // thunk api with error message
@@ -31,7 +32,27 @@ const bookSlice = createSlice({
       return initialState;
     },
   },
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getAllBooks.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getAllBooks.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.books = [...action.payload.payload];
+      state.pagination = action.payload.paginationInfo;
+    });
+    builder.addCase(getAllBooks.rejected, (state, action) => {
+      if (action.meta.aborted) {
+        // Case were we run an abort() in useEffect cleanup
+        state.isError = false;
+      } else {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      }
+    });
+  },
 });
 
 export const { reset } = bookSlice.actions;
