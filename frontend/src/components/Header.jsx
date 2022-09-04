@@ -9,7 +9,7 @@ function Header() {
       </div>
       <ul>
         <li>
-          <Link to="/books">
+          <Link to="/books/?page=1">
             <FaBook /> Books
           </Link>
         </li>

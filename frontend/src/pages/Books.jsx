@@ -1,39 +1,51 @@
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useLocation, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reset, getAllBooks } from '../features/books/bookSlice';
+import Loader from '../components/Loader';
+import Pagination from '../components/Pagination';
 
 function Books() {
-  const [page, setPage] = useState(1);
+  const search = useLocation().search;
+  const page = new URLSearchParams(search).get('page');
   const dispatch = useDispatch();
-  const { books, isLoading, isError, message } = useSelector((state) => state.book);
+  const { books, isLoading, isError, message, pagination } = useSelector((state) => state.book);
 
   useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
-
     // query
     const promise = dispatch(getAllBooks(page));
 
     return () => {
-      // clean up using .abot() form asyncThunk.
-      // Also need to add AbortSignal in case of costly requests.
-      console.log('Calling cleanup');
+      // Also can add AbortSignal in case of costly requests.
+      // clean up using .abot() form asyncThunk. Will emit rejected in the thunk
       dispatch(reset());
-      promise.abort(); // stop clean up a request, this will emit rejected
+      promise.abort();
     };
-  }, [isError, page, dispatch, message]);
+  }, [page, dispatch]);
 
+  if (isError) {
+    toast.error(message);
+    return (
+      <div>
+        <ToastContainer />
+        <h2>An error occurred</h2>
+      </div>
+    );
+  }
   return (
-    <div>
-      {books.map((book) => (
-        <p key={`${book._id}`}>
-          <Link to={`${book._id}`}> {book.title} </Link>
-        </p>
-      ))}
-      <button onClick={() => setPage(2)}> Page 2 </button>
-    </div>
+    <>
+      <div>
+        {isLoading && <Loader />}
+        {books.map((book) => (
+          <p key={`${book._id}`}>
+            <Link to={`${book._id}`}> {book.title} </Link>
+          </p>
+        ))}
+      </div>
+      <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />
+    </>
   );
 }
 

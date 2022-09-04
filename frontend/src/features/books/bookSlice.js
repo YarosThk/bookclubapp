@@ -11,8 +11,8 @@ const initialState = {
 };
 export const getAllBooks = createAsyncThunk('book/getAllBooks', async (page, thunkAPI) => {
   try {
-    //return await bookServices.getBooksRequest(page);
-    return await bookServices.simulateAsync();
+    return await bookServices.getBooksRequest(page);
+    //return await bookServices.simulateAsync();
   } catch (error) {
     console.log(error);
     // thunk api with error message
@@ -43,10 +43,9 @@ const bookSlice = createSlice({
       state.pagination = action.payload.paginationInfo;
     });
     builder.addCase(getAllBooks.rejected, (state, action) => {
-      if (action.meta.aborted) {
-        // Case were we run an abort() in useEffect cleanup
-        state.isError = false;
-      } else {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

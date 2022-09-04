@@ -13,7 +13,17 @@ export const getBooksRequest = async (page) => {
 };
 
 export const simulateAsync = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
+  // To test async resolve and reject values
+  const shouldReject = false;
+  await new Promise((resolve, reject) =>
+    setTimeout(() => {
+      if (shouldReject) {
+        reject("Request didn't work");
+      } else {
+        resolve();
+      }
+    }, 4000)
+  );
   return {
     payload: [
       {
