@@ -4,36 +4,76 @@ import { FaRegArrowAltCircleLeft, FaRegCircle, FaEllipsisH } from 'react-icons/f
 
 function Pagination({ currentPage, totalPages }) {
   return (
-    <div>
-      {currentPage > 1 && <Link to={`/books/?page=${currentPage - 1}`}> Previous </Link>}
-      {<Link to={`/books/?page=${1}`}> 1 </Link>}
-      {(currentPage < 3 || currentPage >= totalPages - 2) && (
-        <Link to={`/books/?page=${2}`}> 2 </Link>
-      )}
-      {(currentPage < 3 || currentPage >= totalPages - 2) && (
-        <Link to={`/books/?page=${3}`}> 3 </Link>
-      )}
-      {currentPage >= 4 && <FaEllipsisH />}
+    <div className="btn-outer-block">
+      <div className="btn-block ">
+        {currentPage > 1 && (
+          <Link to={`/books/?page=${currentPage - 1}`}>
+            <button className="btn">Previous</button>{' '}
+          </Link>
+        )}
+        {
+          <Link to={`/books/?page=${1}`}>
+            <button className="btn">1</button>
+          </Link>
+        }
+        {(currentPage < 3 || currentPage >= totalPages - 2) && (
+          <Link to={`/books/?page=${2}`}>
+            <button className="btn">2</button>
+          </Link>
+        )}
+        {(currentPage < 3 || currentPage >= totalPages - 2) && (
+          <Link to={`/books/?page=${3}`}>
+            <button className="btn">3</button>
+          </Link>
+        )}
+        {currentPage >= 4 && (
+          <button className="btn-ellipsis" disabled>
+            <FaEllipsisH />
+          </button>
+        )}
 
-      {currentPage >= 3 && currentPage <= totalPages - 2 && (
-        <Link to={`/books/?page=${currentPage - 1}`}> {currentPage - 1} </Link>
-      )}
-      {currentPage >= 3 && currentPage <= totalPages - 3 && (
-        <Link to={`/books/?page=${currentPage}`}> {currentPage} </Link>
-      )}
-      {currentPage >= 3 && currentPage <= totalPages - 3 && (
-        <Link to={`/books/?page=${currentPage + 1}`}> {currentPage + 1} </Link>
-      )}
-      {currentPage < totalPages - 2 && <FaEllipsisH />}
+        {currentPage >= 3 && currentPage <= totalPages - 2 && (
+          <Link to={`/books/?page=${currentPage - 1}`}>
+            <button className="btn">{currentPage - 1}</button>
+          </Link>
+        )}
+        {currentPage >= 3 && currentPage <= totalPages - 3 && (
+          <Link to={`/books/?page=${currentPage}`}>
+            <button className="btn">{currentPage}</button>
+          </Link>
+        )}
+        {currentPage >= 3 && currentPage <= totalPages - 3 && (
+          <Link to={`/books/?page=${currentPage + 1}`}>
+            <button className="btn">{currentPage + 1}</button>
+          </Link>
+        )}
+        {currentPage < totalPages - 2 && (
+          <button className="btn-ellipsis" disabled>
+            <FaEllipsisH />
+          </button>
+        )}
 
-      {currentPage >= totalPages - 2 && (
-        <Link to={`/books/?page=${totalPages - 2}`}> {totalPages - 2} </Link>
-      )}
-      {currentPage >= totalPages - 2 && (
-        <Link to={`/books/?page=${totalPages - 1}`}> {totalPages - 1} </Link>
-      )}
-      {<Link to={`/books/?page=${totalPages}`}> {totalPages} </Link>}
-      {currentPage < totalPages && <Link to={`/books/?page=${currentPage + 1}`}> Next </Link>}
+        {currentPage >= totalPages - 2 && (
+          <Link to={`/books/?page=${totalPages - 2}`}>
+            <button className="btn">{totalPages - 2}</button>
+          </Link>
+        )}
+        {currentPage >= totalPages - 2 && (
+          <Link to={`/books/?page=${totalPages - 1}`}>
+            <button className="btn">{totalPages - 1}</button>
+          </Link>
+        )}
+        {
+          <Link to={`/books/?page=${totalPages}`}>
+            <button className="btn">{totalPages}</button>{' '}
+          </Link>
+        }
+        {currentPage < totalPages && (
+          <Link to={`/books/?page=${currentPage + 1}`}>
+            <button className="btn">Next </button>
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

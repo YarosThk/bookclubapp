@@ -22,7 +22,7 @@ export const simulateAsync = async () => {
       } else {
         resolve();
       }
-    }, 4000)
+    }, 10000)
   );
   return {
     payload: [

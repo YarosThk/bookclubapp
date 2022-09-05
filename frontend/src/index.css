@@ -39,7 +39,7 @@ h3 {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 20px 100px;
   text-align: center;
 }
 
@@ -86,26 +86,42 @@ h3 {
   color: #828282;
 }
 
-.goals {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .book {
-  background-color: #f4f4f4;
-  margin: 10px 0;
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 10px;
   padding: 20px 0 10px;
   position: relative;
+  transition: 0.1s;
 }
 
-.book .close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  border: none;
-  background: none;
+.book:hover {
+  border-color: rgb(119, 119, 119);
+}
+
+.bookInfoSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.book h2 {
+  width: 100%;
+}
+.book p {
+  width: 100%;
+  text-align: left;
+}
+.book img {
+  height: 100%;
+  width: 150px;
+  margin-right: 2rem;
 }
 
 .form,
@@ -135,14 +151,20 @@ h3 {
   margin: 0 0 5px 3px;
 }
 
+.btn-outer-block {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .btn {
-  padding: 10px 20px;
-  border: 1px solid #000;
+  min-width: 30px;
+  padding: 5px 5px;
+  border: 1px solid rgb(170, 170, 170);
   border-radius: 5px;
-  background: #000;
-  color: #fff;
+  /* background: rgb(181, 178, 178); */
+  color: #000;
   font-size: 16px;
-  font-weight: 700;
   cursor: pointer;
   text-align: center;
   appearance: button;
@@ -151,18 +173,26 @@ h3 {
   justify-content: center;
 }
 
-.btn svg {
-  margin-right: 8px;
-}
-
-.btn-reverse {
-  background: #fff;
+.btn-ellipsis {
+  padding: 5px 5px;
+  border: none;
   color: #000;
+  font-size: 16px;
+  cursor: default;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-block {
-  width: 100%;
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 40%;
+}
+
+.btn svg {
+  margin-right: 8px;
 }
 
 .btn:hover {
@@ -172,12 +202,6 @@ h3 {
 .loadingSpinnerContainer {
   width: 200px;
   height: 200px;
-  position: relative;
-  /* top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0; */
-  /* background-color: rgba(0, 0, 0, 0.5); */
   z-index: 5000;
   display: flex;
   justify-content: center;

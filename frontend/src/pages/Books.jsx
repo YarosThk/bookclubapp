@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { reset, getAllBooks } from '../features/books/bookSlice';
 import Loader from '../components/Loader';
 import Pagination from '../components/Pagination';
+import Bookplaceholder from './Bookplaceholder.png';
 
 function Books() {
   const search = useLocation().search;
@@ -36,15 +37,21 @@ function Books() {
   }
   return (
     <>
-      <div>
+      <div className="posts">
         {isLoading && <Loader />}
         {books.map((book) => (
-          <p key={`${book._id}`}>
-            <Link to={`${book._id}`}> {book.title} </Link>
-          </p>
+          <section key={`${book._id}`} className="book">
+            <img src={Bookplaceholder} alt={'bookPlaceholder'} />
+            <div classN ame="bookInfoSection">
+              <Link to={`${book._id}`}>
+                <h2 className="bookTitle"> {book.title} </h2>
+              </Link>
+              <p className="bookTitle"> {book.author} </p>
+            </div>
+          </section>
         ))}
+        <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />
       </div>
-      <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />
     </>
   );
 }
