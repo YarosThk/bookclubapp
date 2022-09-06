@@ -39,13 +39,11 @@ const registerUser = async (req, res, next) => {
     if (user) {
       res.status(201);
       res.json({
-        message: 'User registration OK',
-        payload: {
+        user: {
           _id: user.id,
           name: user.name,
           email: user.email,
           token: generateAccessToken(user.id, user.role),
-          // token: generateAccessToken(user._id),
         },
       });
     } else {
@@ -75,14 +73,10 @@ const loginUser = async (req, res, next) => {
     if (passwordCheck) {
       res.status(200);
       res.json({
-        message: 'User logged in',
-        payload: {
-          _id: user.id,
-          name: user.name,
-          email: user.email,
-          token: generateAccessToken(user.id, user.role),
-          // token: generateAccessToken(user._id),
-        },
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        token: generateAccessToken(user.id, user.role),
       });
     } else {
       res.status(400);

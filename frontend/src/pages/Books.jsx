@@ -42,7 +42,7 @@ function Books() {
         {books.map((book) => (
           <section key={`${book._id}`} className="book">
             <img src={Bookplaceholder} alt={'bookPlaceholder'} />
-            <div classN ame="bookInfoSection">
+            <div className="bookInfoSection">
               <Link to={`${book._id}`}>
                 <h2 className="bookTitle"> {book.title} </h2>
               </Link>

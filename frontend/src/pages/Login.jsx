@@ -1,13 +1,23 @@
-import React from 'react';
+import { useState } from 'react';
+import { useDispatch, useNavigate, useSelector } from 'react-redux';
+import { loginUser } from '../features/auth/authSlice';
 import { FaSignInAlt } from 'react-icons/fa';
 
 function Login() {
+  const [loginCredentials, setLoginCredentials] = useState({
+    email: '',
+    password: '',
+  });
+  const { email, password } = loginCredentials;
+  const dispatch = useDispatch();
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('Submitted');
+    dispatch(loginUser({ email, password }));
   };
-  const onChange = () => {
-    console.log('Changing');
+
+  const onChange = (e) => {
+    setLoginCredentials({ ...loginCredentials, [e.target.name]: e.target.value });
   };
   return (
     <>
@@ -26,7 +36,7 @@ function Login() {
               className="form-control"
               id="email"
               name="email"
-              value={'email'}
+              value={email}
               placeholder="example@gmail.com"
               onChange={onChange}
             />
@@ -35,13 +45,13 @@ function Login() {
               className="form-control"
               id="password"
               name="password"
-              value={'password'}
+              value={password}
               placeholder="Secure password"
               onChange={onChange}
             />
           </div>
           <div className="form-group">
-            <button type="submit" className="btn btn-block">
+            <button type="submit" className="btn">
               Login
             </button>
           </div>
