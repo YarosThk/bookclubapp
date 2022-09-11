@@ -39,12 +39,11 @@ const registerUser = async (req, res, next) => {
     if (user) {
       res.status(201);
       res.json({
-        user: {
-          _id: user.id,
-          name: user.name,
-          email: user.email,
-          token: generateAccessToken(user.id, user.role),
-        },
+        _id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateAccessToken(user.id, user.role),
       });
     } else {
       res.status(400);
@@ -76,6 +75,7 @@ const loginUser = async (req, res, next) => {
         _id: user.id,
         name: user.name,
         email: user.email,
+        role: user.role,
         token: generateAccessToken(user.id, user.role),
       });
     } else {
