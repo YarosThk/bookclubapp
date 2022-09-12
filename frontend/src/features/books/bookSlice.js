@@ -14,7 +14,6 @@ export const getAllBooks = createAsyncThunk('book/getAllBooks', async (page, thu
     return await bookServices.getBooksRequest(page);
     //return await bookServices.simulateAsync();
   } catch (error) {
-    console.log(error);
     // thunk api with error message
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -23,6 +22,22 @@ export const getAllBooks = createAsyncThunk('book/getAllBooks', async (page, thu
     return thunkAPI.rejectWithValue(message); //will return the payload with error message
   }
 });
+
+export const getSpecificBook = createAsyncThunk(
+  'book/getSpecificBook',
+  async (bookId, thunkAPI) => {
+    try {
+      return await bookServices.getBookByIdRequest(bookId);
+    } catch (error) {
+      // thunk api with error message
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString(); //if any of those exists we want to put that in message variable
+      return thunkAPI.rejectWithValue(message); //will return the payload with error message
+    }
+  }
+);
 
 const bookSlice = createSlice({
   name: 'book',
@@ -43,6 +58,23 @@ const bookSlice = createSlice({
       state.pagination = action.payload.paginationInfo;
     });
     builder.addCase(getAllBooks.rejected, (state, action) => {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      }
+    });
+    builder.addCase(getSpecificBook.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getSpecificBook.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.books.push(action.payload);
+    });
+    builder.addCase(getSpecificBook.rejected, (state, action) => {
       // Case were we run an abort() in useEffect cleanup
       // Update state unless request was aborted while running
       if (!action.meta.aborted) {

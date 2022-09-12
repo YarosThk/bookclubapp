@@ -47,7 +47,7 @@ const getBook = async (req, res, next) => {
       throw new Error('Book with this id does not exist');
     }
     res.status(200);
-    res.json({ book });
+    res.json(book);
   } catch (error) {
     next(error);
   }

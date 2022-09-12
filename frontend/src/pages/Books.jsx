@@ -35,10 +35,12 @@ function Books() {
       </div>
     );
   }
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <>
       <div className="posts">
-        {isLoading && <Loader />}
         {books.map((book) => (
           <section key={`${book._id}`} className="book">
             <img src={Bookplaceholder} alt={'bookPlaceholder'} />

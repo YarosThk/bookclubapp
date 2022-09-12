@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const BASE_URL = '/api/books/';
 
-export const getBooksRequest = async (page) => {
+const getBooksRequest = async (page) => {
   const request = await axios({
     method: 'GET',
     url: BASE_URL + `?page=${page}`,
@@ -12,7 +12,7 @@ export const getBooksRequest = async (page) => {
   return request.data;
 };
 
-export const simulateAsync = async () => {
+const simulateAsync = async () => {
   // To test async resolve and reject values
   const shouldReject = false;
   await new Promise((resolve, reject) =>
@@ -66,8 +66,18 @@ export const simulateAsync = async () => {
   };
 };
 
+const getBookByIdRequest = async (bookId) => {
+  const response = await axios({
+    method: 'GET',
+    url: BASE_URL + bookId,
+  });
+  console.log(response.data);
+  return response.data;
+};
+
 const bookServices = {
   getBooksRequest,
+  getBookByIdRequest,
   simulateAsync,
 };
 
