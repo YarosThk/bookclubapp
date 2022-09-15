@@ -124,6 +124,24 @@ h3 {
   margin-right: 2rem;
 }
 
+.comments {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 0px 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  background-color: bisque;
+}
+
+.comment {
+  background-color: #f4f4f4;
+  margin: 10px 0;
+  padding: 20px 0 10px;
+  text-align: left;
+}
+
 .form,
 .content {
   width: 70%;

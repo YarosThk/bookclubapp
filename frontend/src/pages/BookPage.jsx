@@ -1,23 +1,34 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, reset } from '../features/books/bookSlice';
+import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
 import Loader from '../components/Loader';
+import Pagination from '../components/Pagination';
 import Bookplaceholder from './Bookplaceholder.png';
 
 function BookPage() {
-  const { books, isError, message, isSuccess, isLoading } = useSelector((state) => state.book);
+  const { comments, paginationComments, isErrorComments, isLoadingComments } = useSelector(
+    (state) => state.comment
+  );
+  const { books, isError, isLoading } = useSelector((state) => state.book);
   const { bookId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const promise = dispatch(getSpecificBook(bookId));
+    if (isError) {
+      navigate('/not-found');
+    }
+    const commentPromise = dispatch(getAllBookComments(bookId));
+    const bookPromise = dispatch(getSpecificBook(bookId));
 
     return () => {
-      console.log('running dispatch reset inside book page');
       dispatch(reset());
-      promise.abort();
+      bookPromise.abort();
+      commentPromise.abort();
     };
-  }, [bookId, dispatch]);
+  }, [bookId, dispatch, navigate, isError]);
 
   if (isLoading) {
     return <Loader />;
@@ -34,7 +45,18 @@ function BookPage() {
             </div>
           </section>
         ))}
+        <div className="comments">
+          {comments.map((comment) => (
+            <div key={comment._id} className="comment">
+              {comment.commentBody}
+            </div>
+          ))}
+        </div>
       </div>
+      <Pagination
+        currentPage={paginationComments.page}
+        totalPages={paginationComments.totalPages}
+      />
     </>
   );
 }

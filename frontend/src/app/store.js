@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import bookReducer from '../features/books/bookSlice';
 import authReducer from '../features/auth/authSlice';
+import bookReducer from '../features/books/bookSlice';
+import commentReducer from '../features/comments/commentsSlice';
 
 export const store = configureStore({
   reducer: {
-    book: bookReducer,
     auth: authReducer,
+    book: bookReducer,
+    comment: commentReducer,
   },
 });

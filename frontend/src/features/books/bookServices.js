@@ -8,13 +8,12 @@ const getBooksRequest = async (page) => {
     method: 'GET',
     url: BASE_URL + `?page=${page}`,
   });
-  console.log(request.data);
   return request.data;
 };
 
 const simulateAsync = async () => {
   // To test async resolve and reject values
-  const shouldReject = false;
+  const shouldReject = true;
   await new Promise((resolve, reject) =>
     setTimeout(() => {
       if (shouldReject) {
@@ -22,7 +21,7 @@ const simulateAsync = async () => {
       } else {
         resolve();
       }
-    }, 10000)
+    }, 6000)
   );
   return {
     payload: [
@@ -71,7 +70,6 @@ const getBookByIdRequest = async (bookId) => {
     method: 'GET',
     url: BASE_URL + bookId,
   });
-  console.log(response.data);
   return response.data;
 };
 

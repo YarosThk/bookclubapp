@@ -8,6 +8,9 @@ const Comment = require('../models/commentModel');
 const getBookComments = async (req, res, next) => {
   // NEED TO IMPLEMENT PAGINATION
   try {
+    const page = parseInt(req.query.page, 10) || 1; // Queried page
+    const pageSize = 10; // Comments per page
+
     if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
       // Checking if Id formad is correct before querying with wrong id
       res.status(400);
@@ -24,10 +27,13 @@ const getBookComments = async (req, res, next) => {
       throw new Error('Book with this id does not exist');
     }
 
+    const documentsCount = await Comment.countDocuments({ bookId: req.params.bookId });
+    const totalPages = Math.ceil(documentsCount / pageSize);
+
     const comments = await Comment.find({ bookId: req.params.bookId });
 
     res.status(200);
-    res.json({ message: 'All comments for the book', payload: comments });
+    res.json({ payload: comments, paginationInfo: { page, totalPages, pageSize, documentsCount } });
   } catch (error) {
     next(error);
   }

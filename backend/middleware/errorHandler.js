@@ -10,8 +10,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(statusCode);
   res.json({
-    message: 'This is a custom error handler function',
-    stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    message: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
 };
 

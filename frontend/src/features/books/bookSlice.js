@@ -9,10 +9,14 @@ const initialState = {
   isSuccess: false,
   message: '',
 };
+
+export const createBook = createAsyncThunk('book/createBook', async (bookData, thunkAPI) => {});
+export const udpateBook = createAsyncThunk('book/udpateBook', async (bookData, thunkAPI) => {});
+export const deleteBook = createAsyncThunk('book/deleteBook', async (bookData, thunkAPI) => {});
+
 export const getAllBooks = createAsyncThunk('book/getAllBooks', async (page, thunkAPI) => {
   try {
     return await bookServices.getBooksRequest(page);
-    //return await bookServices.simulateAsync();
   } catch (error) {
     // thunk api with error message
     const message =
