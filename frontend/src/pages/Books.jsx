@@ -1,45 +1,62 @@
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useLocation, Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reset, getAllBooks } from '../features/books/bookSlice';
 import Loader from '../components/Loader';
-import Pagination from '../components/Pagination';
+import PageComponent from '../components/PageComponent';
 import Bookplaceholder from './Bookplaceholder.png';
 
 function Books() {
-  const search = useLocation().search;
-  const page = new URLSearchParams(search).get('page');
+  // const search = useLocation().search;
+  // const page = new URLSearchParams(search).get('page');
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
-  const { books, isLoading, isError, message, pagination } = useSelector((state) => state.book);
+  const { books, isLoading, isError, pagination } = useSelector((state) => state.book);
+
+  const handlePageClick = (e) => {
+    setCurrentPage(parseInt(e.target.firstChild.textContent));
+  };
+
+  const previousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
 
   useEffect(() => {
     // query
-    const promise = dispatch(getAllBooks(page));
+    const promise = dispatch(getAllBooks(currentPage));
 
     return () => {
       // Also can add AbortSignal in case of costly requests.
-      // clean up using .abot() form asyncThunk. Will emit rejected in the thunk
+      // clean up using .abort() from asyncThunk. Will emit rejected in the thunk
       dispatch(reset());
       promise.abort();
     };
-  }, [page, dispatch]);
+  }, [currentPage, dispatch]);
 
   if (isError) {
-    toast.error(message);
     return (
       <div>
-        <ToastContainer />
         <h2>An error occurred</h2>
       </div>
     );
   }
+
   if (isLoading) {
     return <Loader />;
   }
+
   return (
     <>
+      <PageComponent
+        paginationObject={pagination}
+        currentPage={currentPage}
+        handlePageClick={handlePageClick}
+        previousPage={previousPage}
+        nextPage={nextPage}
+      />
       <div className="posts">
         {books.map((book) => (
           <section key={`${book._id}`} className="book">
@@ -52,7 +69,13 @@ function Books() {
             </div>
           </section>
         ))}
-        <Pagination currentPage={pagination.page} totalPages={pagination.totalPages} />
+        <PageComponent
+          paginationObject={pagination}
+          currentPage={currentPage}
+          handlePageClick={handlePageClick}
+          previousPage={previousPage}
+          nextPage={nextPage}
+        />
       </div>
     </>
   );

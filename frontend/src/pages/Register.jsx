@@ -73,6 +73,7 @@ const Register = () => {
               id="name"
               name="name"
               value={name}
+              required={true}
               placeholder="Enter your name"
               onChange={onChange}
             />
@@ -82,6 +83,7 @@ const Register = () => {
               id="email"
               name="email"
               value={email}
+              required={true}
               placeholder="example@gmail.com"
               onChange={onChange}
             />
@@ -91,6 +93,7 @@ const Register = () => {
               id="password"
               name="password"
               value={password}
+              required={true}
               placeholder="Secure password"
               onChange={onChange}
             />
@@ -100,6 +103,7 @@ const Register = () => {
               id="confirmPassword"
               name="confirmPassword"
               value={confirmPassword}
+              required={true}
               placeholder="Repeat password"
               onChange={onChange}
             />

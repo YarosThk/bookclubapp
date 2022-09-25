@@ -9,7 +9,7 @@ const registerRequest = async (userData) => {
     data: userData,
   });
 
-  console.log(response.data);
+  console.log(response);
   if (response.data) {
     //Response request worked, store user and token in localStorage
     localStorage.setItem('user', JSON.stringify(response.data));

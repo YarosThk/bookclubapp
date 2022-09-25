@@ -21,7 +21,7 @@ function Header() {
       </div>
       <ul>
         <li>
-          <Link to="/books/?page=1">
+          <Link to="/books">
             <FaBook /> Books
           </Link>
         </li>

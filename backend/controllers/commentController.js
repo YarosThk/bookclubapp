@@ -6,10 +6,9 @@ const Comment = require('../models/commentModel');
 // @route GET api/books/:bookId/comments
 // @access Public
 const getBookComments = async (req, res, next) => {
-  // NEED TO IMPLEMENT PAGINATION
   try {
     const page = parseInt(req.query.page, 10) || 1; // Queried page
-    const pageSize = 10; // Comments per page
+    const pageSize = 5; // Comments per page
 
     if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
       // Checking if Id formad is correct before querying with wrong id
@@ -30,7 +29,10 @@ const getBookComments = async (req, res, next) => {
     const documentsCount = await Comment.countDocuments({ bookId: req.params.bookId });
     const totalPages = Math.ceil(documentsCount / pageSize);
 
-    const comments = await Comment.find({ bookId: req.params.bookId });
+    const comments = await Comment.find({ bookId: req.params.bookId })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort('-createdAt');
 
     res.status(200);
     res.json({ payload: comments, paginationInfo: { page, totalPages, pageSize, documentsCount } });

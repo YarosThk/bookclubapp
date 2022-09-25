@@ -24,9 +24,10 @@ export const deleteComment = createAsyncThunk(
 
 export const getAllBookComments = createAsyncThunk(
   'comment/getAllBookComments',
-  async (bookId, page, thunkAPI) => {
+  async (reqParams, thunkAPI) => {
+    const { bookId, currentPage } = reqParams;
     try {
-      return commentsServices.getCommentsByBookRequest(bookId, page);
+      return commentsServices.getCommentsByBookRequest(bookId, currentPage);
     } catch (error) {
       // thunk api with error message
       const message =

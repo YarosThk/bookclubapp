@@ -1,4 +1,5 @@
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -59,6 +60,7 @@ function Login() {
               id="email"
               name="email"
               value={email}
+              required={true}
               placeholder="example@gmail.com"
               onChange={onChange}
             />
@@ -68,6 +70,7 @@ function Login() {
               id="password"
               name="password"
               value={password}
+              required={true}
               placeholder="Secure password"
               onChange={onChange}
             />
