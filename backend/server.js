@@ -18,7 +18,7 @@ app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 
-app.use(logErrors);
+// app.use(logErrors);
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`LISTENING ON PORT ${port}`));

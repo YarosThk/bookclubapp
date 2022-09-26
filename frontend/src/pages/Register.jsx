@@ -25,9 +25,10 @@ const Register = () => {
     if (isSuccess || user) {
       navigate('/');
     }
-    return () => {
-      dispatch(reset());
-    };
+    // return () => {
+    //   dispatch(reset());
+    // };
+    dispatch(reset());
   }, [user, isSuccess, isError, message, navigate, dispatch]);
 
   const onChange = (e) => {
@@ -73,7 +74,6 @@ const Register = () => {
               id="name"
               name="name"
               value={name}
-              required={true}
               placeholder="Enter your name"
               onChange={onChange}
             />
