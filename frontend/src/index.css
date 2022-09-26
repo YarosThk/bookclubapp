@@ -86,6 +86,29 @@ h3 {
   color: #828282;
 }
 
+.controls-header {
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.controls-header ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.controls-header ul li {
+  margin-left: 20px;
+}
+
+.controls-header ul li a:hover {
+  color: #777;
+}
+
 .posts {
   display: flex;
   flex-direction: column;

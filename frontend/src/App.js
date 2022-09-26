@@ -5,6 +5,9 @@ import Books from './pages/Books';
 import BookPage from './pages/BookPage';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Profile from './pages/Profile';
+import UserBooks from './components/UserBooks';
+import Comments from './components/Comments';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -19,6 +22,10 @@ function App() {
             <Route path="/books/:bookId" element={<BookPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />}>
+              <Route path="books" element={<UserBooks />} />
+              <Route path="comments" element={<Comments />} />
+            </Route>
             <Route path="/not-found" element={<PageNotFound />} />
             <Route
               path="*"

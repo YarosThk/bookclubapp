@@ -16,6 +16,19 @@ const getCommentsByBookRequest = async (bookId, page) => {
   return response.data;
 };
 
-const commentsServices = { getCommentsByBookRequest };
+const getCommentsByUser = async (userId, token) => {
+  // needs also pagination
+  const response = await axios({
+    method: 'GET',
+    url: `/api/users/${userId}/comments`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(response.data);
+  return response.data;
+};
+
+const commentsServices = { getCommentsByBookRequest, getCommentsByUser };
 
 export default commentsServices;

@@ -80,7 +80,7 @@ const getUserComments = async (req, res, next) => {
 
     const comments = await Comment.find({ userId: req.params.userId });
 
-    res.json({ message: 'Get user comments', payload: comments });
+    res.json({ payload: comments });
   } catch (error) {
     next(error);
   }

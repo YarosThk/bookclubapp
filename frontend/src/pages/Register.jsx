@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { registerUser, reset } from '../features/auth/authSlice';
 import Loader from '../components/Loader';
 
-const Register = () => {
+function Register() {
   const [registrationForm, setRegistrationForm] = useState({
     name: '',
     email: '',
@@ -118,6 +118,6 @@ const Register = () => {
       </section>
     </>
   );
-};
+}
 
 export default Register;

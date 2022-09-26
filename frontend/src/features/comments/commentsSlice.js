@@ -9,25 +9,25 @@ const initialState = {
   isSuccessComments: false,
   messageComments: '',
 };
-export const createComment = createAsyncThunk(
-  'comment/createComment',
-  async (bookData, thunkAPI) => {}
-);
-export const udpateComment = createAsyncThunk(
-  'comment/udpateComment',
-  async (bookData, thunkAPI) => {}
-);
-export const deleteComment = createAsyncThunk(
-  'comment/deleteComment',
-  async (bookData, thunkAPI) => {}
-);
+// export const createComment = createAsyncThunk(
+//   'comment/createComment',
+//   async (bookData, thunkAPI) => {}
+// );
+// export const udpateComment = createAsyncThunk(
+//   'comment/udpateComment',
+//   async (bookData, thunkAPI) => {}
+// );
+// export const deleteComment = createAsyncThunk(
+//   'comment/deleteComment',
+//   async (bookData, thunkAPI) => {}
+// );
 
 export const getAllBookComments = createAsyncThunk(
   'comment/getAllBookComments',
   async (reqParams, thunkAPI) => {
     const { bookId, currentPage } = reqParams;
     try {
-      return commentsServices.getCommentsByBookRequest(bookId, currentPage);
+      return await commentsServices.getCommentsByBookRequest(bookId, currentPage);
     } catch (error) {
       // thunk api with error message
       const message =
@@ -41,8 +41,10 @@ export const getAllBookComments = createAsyncThunk(
 
 export const getAllUserComments = createAsyncThunk(
   'comment/getAllUserComments',
-  async (page, thunkAPI) => {
+  async (userId, thunkAPI) => {
     try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await commentsServices.getCommentsByUser(userId, token);
     } catch (error) {
       // thunk api with error message
       const message =
@@ -73,6 +75,24 @@ const commentSlice = createSlice({
       state.paginationComments = action.payload.paginationInfo;
     });
     builder.addCase(getAllBookComments.rejected, (state, action) => {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoadingComments = false;
+        state.isErrorComments = true;
+        state.messageComments = action.payload;
+      }
+    });
+    builder.addCase(getAllUserComments.pending, (state) => {
+      state.isLoadingComments = true;
+    });
+    builder.addCase(getAllUserComments.fulfilled, (state, action) => {
+      state.isLoadingComments = false;
+      state.isSuccessComments = true;
+      state.comments = [...action.payload.payload];
+      state.paginationComments = action.payload.paginationInfo;
+    });
+    builder.addCase(getAllUserComments.rejected, (state, action) => {
       // Case were we run an abort() in useEffect cleanup
       // Update state unless request was aborted while running
       if (!action.meta.aborted) {
