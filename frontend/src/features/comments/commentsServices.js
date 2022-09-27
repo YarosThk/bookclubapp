@@ -12,20 +12,19 @@ const getCommentsByBookRequest = async (bookId, page) => {
     // http://localhost:3000/books/api/books/631505e768c8a2b65aec541b/comments
     // url: `api/books/${bookId}/comments`,
   });
-  console.log(response.data);
   return response.data;
 };
 
-const getCommentsByUser = async (userId, token) => {
+const getCommentsByUser = async (userId, page, token) => {
   // needs also pagination
+  // const page = 1;
   const response = await axios({
     method: 'GET',
-    url: `/api/users/${userId}/comments`,
+    url: `/api/users/${userId}/comments?page=${page}`,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response.data);
   return response.data;
 };
 

@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import UserBooks from './components/UserBooks';
-import Comments from './components/Comments';
+import UserComments from './components/UserComments';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />}>
               <Route path="books" element={<UserBooks />} />
-              <Route path="comments" element={<Comments />} />
+              <Route path="comments" element={<UserComments />} />
             </Route>
             <Route path="/not-found" element={<PageNotFound />} />
             <Route

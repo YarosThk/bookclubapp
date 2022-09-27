@@ -7,9 +7,6 @@ const Comment = require('../models/commentModel');
 // @access Public
 const getBookComments = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page, 10) || 1; // Queried page
-    const pageSize = 5; // Comments per page
-
     if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
       // Checking if Id formad is correct before querying with wrong id
       res.status(400);
@@ -26,6 +23,8 @@ const getBookComments = async (req, res, next) => {
       throw new Error('Book with this id does not exist');
     }
 
+    const page = parseInt(req.query.page, 10) || 1; // Queried page
+    const pageSize = 5; // Comments per page
     const documentsCount = await Comment.countDocuments({ bookId: req.params.bookId });
     const totalPages = Math.ceil(documentsCount / pageSize);
 
@@ -58,7 +57,7 @@ const getUserComments = async (req, res, next) => {
       throw new Error('Missing user id parameter');
     }
 
-    // Check if user found after authorization
+    // Check if user found after authorization, comes from authMiddleware
     if (!req.user.id) {
       res.status(400);
       throw new Error('User not found');
@@ -77,10 +76,17 @@ const getUserComments = async (req, res, next) => {
       res.status(400);
       throw new Error('User not found');
     }
+    const page = parseInt(req.query.page, 10) || 1; // Queried page
+    const pageSize = 5; // Comments per page
+    const documentsCount = await Comment.countDocuments({ userId: req.params.userId });
+    const totalPages = Math.ceil(documentsCount / pageSize);
 
-    const comments = await Comment.find({ userId: req.params.userId });
+    const comments = await Comment.find({ userId: req.params.userId })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort('-createdAt');
 
-    res.json({ payload: comments });
+    res.json({ payload: comments, paginationInfo: { page, totalPages, pageSize, documentsCount } });
   } catch (error) {
     next(error);
   }

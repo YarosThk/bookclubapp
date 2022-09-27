@@ -1,4 +1,5 @@
 const Book = require('../models/bookModel');
+const User = require('../models/userModel');
 
 // @desc GET all books
 // @route GET api/books/?page=1
@@ -24,6 +25,67 @@ const getAllBooks = async (req, res, next) => {
     res.json({
       paginationInfo: { page, totalPages, pageSize, documentsCount },
       payload: results,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc GET all books
+// @route GET api/users/:userId/books
+// @access Private
+const getBooksByUser = async (req, res, next) => {
+  // As pointed out in internet resources this is not a really scalable way, since skip is not really efficient with big colletions
+  // Also if any new document is inserted in between queries, we can have repeated document on a new page from previous page.
+  // Another solutions is to implement some kind of cursor based on timestamps.
+  try {
+    console.log(req.params.userId);
+    console.log(req.user.id);
+    if (!req.params.userId.match(/^[0-9a-fA-F]{24}$/)) {
+      // Checking if Id formad is correct before querying with wrong id
+      res.status(400);
+      throw new Error('Invalid user Id');
+    }
+
+    if (!req.params.userId) {
+      res.status(400);
+      throw new Error('Missing user id parameter');
+    }
+
+    // Check if user found after authorization
+    if (!req.user.id) {
+      res.status(400);
+      throw new Error('User not found');
+    }
+
+    // To assure that user is able to get only his/her comments
+    if (req.params.userId !== req.user.id) {
+      res.status(401);
+      throw new Error('User not authorized');
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      // Check just in case user doesn't exist, unlikely since it's coming from a token
+      res.status(400);
+      throw new Error('User not found');
+    }
+
+    const page = parseInt(req.query.page, 10) || 1; // Queried page
+    const pageSize = 5; // Books per page
+    const documentsCount = await Book.countDocuments({ user: req.params.userId });
+    const totalPages = Math.ceil(documentsCount / pageSize);
+
+    // Maybe need an if clause to check that page should not be bigget than totalPages
+    const results = await Book.find({ user: req.params.userId })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort('-createdAt');
+
+    res.status(200);
+    res.json({
+      payload: results,
+      paginationInfo: { page, totalPages, pageSize, documentsCount },
     });
   } catch (error) {
     next(error);
@@ -140,6 +202,7 @@ const deleteBook = async (req, res, next) => {
 
 module.exports = {
   getAllBooks,
+  getBooksByUser,
   getBook,
   createBook,
   updateBook,

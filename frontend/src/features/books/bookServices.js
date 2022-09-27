@@ -65,6 +65,18 @@ const simulateAsync = async () => {
   };
 };
 
+const getBooksByUserRequest = async (userId, page, token) => {
+  const response = await axios({
+    method: 'GET',
+    url: `/api/users/${userId}/books?page=${page}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(response.data);
+  return response.data;
+};
+
 const getBookByIdRequest = async (bookId) => {
   const response = await axios({
     method: 'GET',
@@ -76,6 +88,7 @@ const getBookByIdRequest = async (bookId) => {
 const bookServices = {
   getBooksRequest,
   getBookByIdRequest,
+  getBooksByUserRequest,
   simulateAsync,
 };
 

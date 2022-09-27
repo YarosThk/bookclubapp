@@ -41,10 +41,11 @@ export const getAllBookComments = createAsyncThunk(
 
 export const getAllUserComments = createAsyncThunk(
   'comment/getAllUserComments',
-  async (userId, thunkAPI) => {
+  async (requestData, thunkAPI) => {
     try {
+      const { userId, page } = requestData;
       const token = thunkAPI.getState().auth.user.token;
-      return await commentsServices.getCommentsByUser(userId, token);
+      return await commentsServices.getCommentsByUser(userId, page, token);
     } catch (error) {
       // thunk api with error message
       const message =
