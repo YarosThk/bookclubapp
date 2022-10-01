@@ -1,9 +1,6 @@
 // Contains all the API request to the backend in order to get comments data
 import axios from 'axios';
 
-// const BASE_URL = 'api/comments/';
-// const USER_COMMENTS_URL = 'api/users/:userId/comments';
-
 const getCommentsByBookRequest = async (bookId, page) => {
   const response = await axios({
     method: 'GET',
@@ -28,6 +25,20 @@ const getCommentsByUser = async (userId, page, token) => {
   return response.data;
 };
 
-const commentsServices = { getCommentsByBookRequest, getCommentsByUser };
+const createCommentRequest = async (comment, bookId, token) => {
+  const response = await axios({
+    method: 'POST',
+    url: `/api/comments/${bookId}`,
+    data: {
+      commentBody: comment,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+const commentsServices = { getCommentsByBookRequest, getCommentsByUser, createCommentRequest };
 
 export default commentsServices;

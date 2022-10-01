@@ -9,10 +9,24 @@ const initialState = {
   isSuccessComments: false,
   messageComments: '',
 };
-// export const createComment = createAsyncThunk(
-//   'comment/createComment',
-//   async (bookData, thunkAPI) => {}
-// );
+export const createComment = createAsyncThunk(
+  'comment/createComment',
+  async (bookData, thunkAPI) => {
+    try {
+      const { text, bookId } = bookData;
+      const token = thunkAPI.getState().auth.user.token;
+      return await commentsServices.createCommentRequest(text, bookId, token);
+    } catch (error) {
+      // thunk api with error message
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString(); //if any of those exists we want to put that in message variable
+      return thunkAPI.rejectWithValue(message); //will return the payload with error message
+    }
+  }
+);
+
 // export const udpateComment = createAsyncThunk(
 //   'comment/udpateComment',
 //   async (bookData, thunkAPI) => {}
@@ -94,6 +108,23 @@ const commentSlice = createSlice({
       state.paginationComments = action.payload.paginationInfo;
     });
     builder.addCase(getAllUserComments.rejected, (state, action) => {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoadingComments = false;
+        state.isErrorComments = true;
+        state.messageComments = action.payload;
+      }
+    });
+    builder.addCase(createComment.pending, (state) => {
+      state.isLoadingComments = true;
+    });
+    builder.addCase(createComment.fulfilled, (state, action) => {
+      state.isLoadingComments = false;
+      state.isSuccessComments = true;
+      state.comments.unshift(action.payload.payload);
+    });
+    builder.addCase(createComment.rejected, (state, action) => {
       // Case were we run an abort() in useEffect cleanup
       // Update state unless request was aborted while running
       if (!action.meta.aborted) {

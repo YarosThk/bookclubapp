@@ -69,13 +69,6 @@ const getUserComments = async (req, res, next) => {
       throw new Error('User not authorized');
     }
 
-    const user = await User.findById(req.user.id);
-
-    if (!user) {
-      // Check just in case user doesn't exist, unlikely since it's coming from a token
-      res.status(400);
-      throw new Error('User not found');
-    }
     const page = parseInt(req.query.page, 10) || 1; // Queried page
     const pageSize = 5; // Comments per page
     const documentsCount = await Comment.countDocuments({ userId: req.params.userId });
@@ -97,15 +90,32 @@ const getUserComments = async (req, res, next) => {
 // @access Private
 const createComment = async (req, res, next) => {
   try {
-    if (!req.body.bookId || !req.body.commentBody || !req.user.id || !req.user.name) {
+    if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
+      // Checking if Id formad is correct before querying with wrong id
+      res.status(400);
+      throw new Error('Invalid book Id');
+    }
+    if (!req.params.bookId) {
+      res.status(400);
+      throw new Error('Missing book id parameter');
+    }
+
+    const book = await Book.findById(req.params.bookId);
+    if (!book) {
+      res.status(400);
+      throw new Error('Book with this id does not exist');
+    }
+
+    if (!req.body.commentBody || !req.user.id || !req.user.name) {
       // res.user.id and name come from the token anyway, but maybe for extra reassurance we can check if is's there
       res.status(400);
       throw new Error('Missing required comment data.');
     }
+
     const comment = await Comment.create({
       userId: req.user.id,
       userName: req.user.name,
-      bookId: req.body.bookId,
+      bookId: req.params.bookId,
       commentBody: req.body.commentBody,
     });
 

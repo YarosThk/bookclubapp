@@ -24,7 +24,7 @@ const registerUser = async (req, res, next) => {
 
     if (userExists) {
       res.status(400);
-      throw new Error('User already exists');
+      throw new Error('User with this email already exists');
     }
 
     // Hash the password
@@ -65,7 +65,7 @@ const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) {
       res.status(400);
-      res.json({ message: 'User not found' });
+      res.json({ message: "User with this email doesn't exist." });
     }
     // Unhash and check the hashed password in DB vs the provided passowrd
     const hashedPassword = user.password;
@@ -96,7 +96,7 @@ const getUser = async (req, res, next) => {
     // Check if user found after authorization
     if (!req.user.id) {
       res.status(401);
-      throw new Error('User not found');
+      throw new Error("User with this email doesn't exist.");
     }
 
     res.json({ message: 'Get user data', payload: req.user });

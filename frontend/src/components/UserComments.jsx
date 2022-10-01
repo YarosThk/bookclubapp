@@ -39,7 +39,6 @@ function UserComments() {
 
   return (
     <>
-      <div>User comments go here:</div>
       {isErrorComments ? (
         <p>Error while loading comments.</p>
       ) : (

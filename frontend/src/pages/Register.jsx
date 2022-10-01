@@ -74,6 +74,7 @@ function Register() {
               id="name"
               name="name"
               value={name}
+              required={true}
               placeholder="Enter your name"
               onChange={onChange}
             />

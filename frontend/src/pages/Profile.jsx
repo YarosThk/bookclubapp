@@ -21,12 +21,18 @@ function Profile() {
     <>
       <section className="heading">
         <h1>Welcome {user && user.name}</h1>
-        <p>Find your activity here: </p>
         <div className="controls-header">
           <ul>
-            <li>
-              <Link to="books"> Books posted </Link>
-            </li>
+            {user.role === 'admin' ? (
+              <>
+                <li>
+                  <Link to="new-book"> New Book </Link>
+                </li>
+                <li>
+                  <Link to="books"> Books</Link>
+                </li>
+              </>
+            ) : null}
             <li>
               <Link to="comments"> Comments </Link>
             </li>
@@ -35,7 +41,6 @@ function Profile() {
       </section>
 
       <section className="content">
-        <p>Queried data:</p>
         <Outlet />
       </section>
     </>

@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import UserBooks from './components/UserBooks';
 import UserComments from './components/UserComments';
+import BookForm from './components/BookForm';
 import PageNotFound from './pages/PageNotFound';
 
 function App() {
@@ -20,12 +21,13 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/books" element={<Books />} />
             <Route path="/books/:bookId" element={<BookPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />}>
+            <Route path="/profile/:userId" element={<Profile />}>
+              <Route path="new-book" element={<BookForm />} />
               <Route path="books" element={<UserBooks />} />
               <Route path="comments" element={<UserComments />} />
             </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/not-found" element={<PageNotFound />} />
             <Route
               path="*"

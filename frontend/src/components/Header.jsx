@@ -28,7 +28,7 @@ function Header() {
         {user ? (
           <>
             <li>
-              <Link to="/profile">
+              <Link to={`/profile/${user._id}`}>
                 <FaHome /> Profile
               </Link>
             </li>

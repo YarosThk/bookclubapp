@@ -3,11 +3,6 @@ import axios from 'axios';
 const BASE_URL = '/api/users/';
 
 const registerRequest = async (userData) => {
-  // const response = await axios({
-  //   method: 'POST',
-  //   url: BASE_URL,
-  //   data: userData,
-  // });
   const response = await axios({ method: 'POST', url: BASE_URL, data: userData });
   // const response = await axios.post(BASE_URL, userData);
   if (response.data) {

@@ -20,7 +20,6 @@ const authMiddleware = async (req, res, next) => {
       const decodedUserId = decodedToken.userId;
       // Assign a user to our request object so it's accesible in the other route handlers
       req.user = await User.findById(decodedUserId).select('-password');
-      console.log(req.user);
       next();
     } else {
       res.status(401);

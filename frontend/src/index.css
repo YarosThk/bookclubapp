@@ -197,8 +197,7 @@ h3 {
 
 .form,
 .content {
-  width: 70%;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .form-group {
@@ -209,6 +208,7 @@ h3 {
 .form-group textarea,
 .form-group select {
   width: 100%;
+  min-height: 100px;
   padding: 10px;
   border: 1px solid #e6e6e6;
   border-radius: 5px;
@@ -224,7 +224,7 @@ h3 {
 
 .btn-outer-block {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   width: 100%;
 }
 

@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, reset } from '../features/books/bookSlice';
 import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
+import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
 import Bookplaceholder from './Bookplaceholder.png';
 
 function BookPage() {
   const { books, isError, isLoading } = useSelector((state) => state.book);
-  const { comments, paginationComments, isErrorComments, isLoadingComments } = useSelector(
-    (state) => state.comment
-  );
+  const { comments, paginationComments, isErrorComments, messageComments, isLoadingComments } =
+    useSelector((state) => state.comment);
   const { bookId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function BookPage() {
     }
     const bookPromise = dispatch(getSpecificBook(bookId));
     const commentPromise = dispatch(
-      getAllBookComments({ bookId: '63051c57a4578439050380fb', currentPage }) //need to replace the hard coded bookId
+      getAllBookComments({ bookId: bookId, currentPage }) //need to replace the hard coded bookId
     );
 
     return () => {
@@ -61,8 +61,9 @@ function BookPage() {
             </div>
           </section>
         ))}
+        <CommentForm bookId={bookId} />
         {isErrorComments ? (
-          <p>Error while loading comments.</p>
+          <p>{messageComments}</p>
         ) : (
           <div className="comments">
             {comments.map((comment) => (
