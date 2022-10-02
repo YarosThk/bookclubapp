@@ -59,7 +59,24 @@ export const getAllUserComments = createAsyncThunk(
     try {
       const { userId, page } = requestData;
       const token = thunkAPI.getState().auth.user.token;
-      return await commentsServices.getCommentsByUser(userId, page, token);
+      return await commentsServices.getCommentsByUserRequest(userId, page, token);
+    } catch (error) {
+      // thunk api with error message
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString(); //if any of those exists we want to put that in message variable
+      return thunkAPI.rejectWithValue(message); //will return the payload with error message
+    }
+  }
+);
+
+export const deleteComment = createAsyncThunk(
+  'comment/deleteComment',
+  async (commentId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await commentsServices.deleteCommentRequest(commentId, token);
     } catch (error) {
       // thunk api with error message
       const message =
@@ -125,6 +142,26 @@ const commentSlice = createSlice({
       state.comments.unshift(action.payload.payload);
     });
     builder.addCase(createComment.rejected, (state, action) => {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoadingComments = false;
+        state.isErrorComments = true;
+        state.messageComments = action.payload;
+      }
+    });
+    builder.addCase(deleteComment.pending, (state) => {
+      state.isLoadingComments = true;
+    });
+    builder.addCase(deleteComment.fulfilled, (state, action) => {
+      state.isLoadingComments = false;
+      state.isSuccessComments = true;
+      state.comments = state.comments.filter(
+        (comment) => comment._id !== action.payload.payload._id
+      );
+      state.messageComments = action.payload.message;
+    });
+    builder.addCase(deleteComment.rejected, (state, action) => {
       // Case were we run an abort() in useEffect cleanup
       // Update state unless request was aborted while running
       if (!action.meta.aborted) {

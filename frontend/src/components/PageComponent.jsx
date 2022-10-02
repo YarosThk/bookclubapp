@@ -19,7 +19,8 @@ function PageComponent({
 
   let muiddlePagination;
 
-  if (totalPages < 5) {
+  if (totalPages <= 5) {
+    //totalPages < 5
     muiddlePagination = pages.map((page) => (
       <button key={page} id={page} onClick={handlePageClick} disabled={page === currentPage}>
         {page}
@@ -27,6 +28,7 @@ function PageComponent({
     ));
   } else {
     if (currentPage >= 5) {
+      //currentPage >= 5
       if (totalPages - currentPage >= 5) {
         const pageSlice = pages.slice(currentPage - 1, currentPage + 5 - 1);
         muiddlePagination = (

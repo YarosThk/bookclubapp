@@ -1,17 +1,29 @@
+import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, reset } from '../features/books/bookSlice';
-import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
+import {
+  getAllBookComments,
+  deleteComment,
+  resetComments,
+} from '../features/comments/commentsSlice';
 import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
 import Bookplaceholder from './Bookplaceholder.png';
 
 function BookPage() {
+  const { user } = useSelector((state) => state.auth);
   const { books, isError, isLoading } = useSelector((state) => state.book);
-  const { comments, paginationComments, isErrorComments, messageComments, isLoadingComments } =
-    useSelector((state) => state.comment);
+  const {
+    comments,
+    paginationComments,
+    isErrorComments,
+    messageComments,
+    isLoadingComments,
+    isSuccessComments,
+  } = useSelector((state) => state.comment);
   const { bookId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
@@ -26,6 +38,10 @@ function BookPage() {
   };
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
+  };
+
+  const handleDelete = (commentId) => {
+    dispatch(deleteComment(commentId));
   };
 
   useEffect(() => {
@@ -49,8 +65,17 @@ function BookPage() {
   if (isLoading || isLoadingComments) {
     return <Loader />;
   }
+
+  if (isSuccessComments & (messageComments !== '')) {
+    toast.success(messageComments);
+  }
+
+  if (isErrorComments) {
+    toast.error('Error loading comments');
+  }
   return (
     <>
+      <ToastContainer />
       <div className="posts">
         {books.map((book) => (
           <section key={`${book._id}`} className="book">
@@ -68,6 +93,11 @@ function BookPage() {
           <div className="comments">
             {comments.map((comment) => (
               <div key={comment._id} className="comment">
+                {comment.userId === user._id ? (
+                  <button className="btn" onClick={() => handleDelete(comment._id)}>
+                    Delete
+                  </button>
+                ) : null}
                 {comment.commentBody}
               </div>
             ))}

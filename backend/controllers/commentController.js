@@ -95,6 +95,7 @@ const createComment = async (req, res, next) => {
       res.status(400);
       throw new Error('Invalid book Id');
     }
+
     if (!req.params.bookId) {
       res.status(400);
       throw new Error('Missing book id parameter');
@@ -157,7 +158,7 @@ const deleteComment = async (req, res, next) => {
     await Comment.deleteOne(comment);
 
     res.status(200);
-    res.json({ message: 'Comment deleted' });
+    res.json({ message: 'Comment deleted', payload: comment });
   } catch (error) {
     next(error);
   }

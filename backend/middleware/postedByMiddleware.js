@@ -10,6 +10,11 @@ const postedByMiddleware = async (req, res, next) => {
       throw new Error('Invalid comment Id');
     }
 
+    if (!req.params.commentId) {
+      res.status(400);
+      throw new Error('Missing comment id parameter');
+    }
+
     const comment = await Comment.findById(req.params.commentId);
 
     if (!comment) {

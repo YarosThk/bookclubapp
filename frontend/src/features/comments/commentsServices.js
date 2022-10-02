@@ -12,7 +12,7 @@ const getCommentsByBookRequest = async (bookId, page) => {
   return response.data;
 };
 
-const getCommentsByUser = async (userId, page, token) => {
+const getCommentsByUserRequest = async (userId, page, token) => {
   // needs also pagination
   // const page = 1;
   const response = await axios({
@@ -39,6 +39,23 @@ const createCommentRequest = async (comment, bookId, token) => {
   return response.data;
 };
 
-const commentsServices = { getCommentsByBookRequest, getCommentsByUser, createCommentRequest };
+const deleteCommentRequest = async (commentId, token) => {
+  const response = await axios({
+    method: 'DELETE',
+    url: `/api/comments/${commentId}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log(response.data);
+  return response.data;
+};
+
+const commentsServices = {
+  getCommentsByBookRequest,
+  getCommentsByUserRequest,
+  createCommentRequest,
+  deleteCommentRequest,
+};
 
 export default commentsServices;
