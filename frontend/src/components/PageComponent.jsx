@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
-
-function PageComponent({
-  paginationObject,
-  isLoading,
-  currentPage,
-  handlePageClick,
-  previousPage,
-  nextPage,
-}) {
+function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
   const { documentsCount, page, pageSize, totalPages } = paginationObject;
+
+  const handlePageClick = (e) => {
+    setCurrentPage(parseInt(e.target.firstChild.textContent));
+  };
+
+  const previousPage = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  const nextPage = () => {
+    setCurrentPage(currentPage + 1);
+  };
 
   //Helper array to obtain button values
   let pages = [];

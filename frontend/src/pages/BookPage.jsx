@@ -3,21 +3,16 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, reset } from '../features/books/bookSlice';
-import {
-  getAllBookComments,
-  deleteComment,
-  resetComments,
-} from '../features/comments/commentsSlice';
+import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
 import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
+import CommentComponent from '../components/CommentComponent';
 import Bookplaceholder from './Bookplaceholder.png';
 
 function BookPage() {
-  const { user } = useSelector((state) => state.auth);
   const { books, isError, isLoading } = useSelector((state) => state.book);
   const {
-    comments,
     paginationComments,
     isErrorComments,
     messageComments,
@@ -28,21 +23,6 @@ function BookPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const handlePageClick = (e) => {
-    setCurrentPage(parseInt(e.target.firstChild.textContent));
-  };
-
-  const previousPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  const handleDelete = (commentId) => {
-    dispatch(deleteComment(commentId));
-  };
 
   useEffect(() => {
     if (isError) {
@@ -87,29 +67,12 @@ function BookPage() {
           </section>
         ))}
         <CommentForm bookId={bookId} />
-        {isErrorComments ? (
-          <p>{messageComments}</p>
-        ) : (
-          <div className="comments">
-            {comments.map((comment) => (
-              <div key={comment._id} className="comment">
-                {comment.userId === user._id ? (
-                  <button className="btn" onClick={() => handleDelete(comment._id)}>
-                    Delete
-                  </button>
-                ) : null}
-                {comment.commentBody}
-              </div>
-            ))}
-          </div>
-        )}
+        {isErrorComments ? <p>{messageComments}</p> : <CommentComponent />}
       </div>
       <PageComponent
         paginationObject={paginationComments}
         currentPage={currentPage}
-        handlePageClick={handlePageClick}
-        previousPage={previousPage}
-        nextPage={nextPage}
+        setCurrentPage={setCurrentPage}
       />
     </>
   );

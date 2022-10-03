@@ -13,17 +13,6 @@ function Books() {
   const dispatch = useDispatch();
   const { books, isLoading, isError, pagination } = useSelector((state) => state.book);
 
-  const handlePageClick = (e) => {
-    setCurrentPage(parseInt(e.target.firstChild.textContent));
-  };
-
-  const previousPage = () => {
-    setCurrentPage(currentPage - 1);
-  };
-  const nextPage = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
   useEffect(() => {
     // query
     const promise = dispatch(getAllBooks(currentPage));
@@ -53,9 +42,7 @@ function Books() {
       <PageComponent
         paginationObject={pagination}
         currentPage={currentPage}
-        handlePageClick={handlePageClick}
-        previousPage={previousPage}
-        nextPage={nextPage}
+        setCurrentPage={setCurrentPage}
       />
       <div className="posts">
         {books.map((book) => (
@@ -72,9 +59,7 @@ function Books() {
         <PageComponent
           paginationObject={pagination}
           currentPage={currentPage}
-          handlePageClick={handlePageClick}
-          previousPage={previousPage}
-          nextPage={nextPage}
+          setCurrentPage={setCurrentPage}
         />
       </div>
     </>

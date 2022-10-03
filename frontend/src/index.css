@@ -155,14 +155,29 @@ h3 {
   display: flex;
   flex-direction: column;
   justify-content: left;
-  background-color: bisque;
 }
 
 .comment {
-  background-color: #f4f4f4;
   margin: 10px 0;
-  padding: 20px 0 10px;
+  padding: 5px;
   text-align: left;
+}
+
+.comment-heading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.right-wrapper {
+  display: flex;
+}
+.right-wrapper p {
+  margin-right: 20px;
+}
+
+.right-wrapper select {
+  height: 25px;
 }
 
 .pagination {
