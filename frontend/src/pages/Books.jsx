@@ -4,17 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { reset, getAllBooks } from '../features/books/bookSlice';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
-import Bookplaceholder from './Bookplaceholder.png';
 
 function Books() {
-  // const search = useLocation().search;
-  // const page = new URLSearchParams(search).get('page');
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const { books, isLoading, isError, pagination } = useSelector((state) => state.book);
 
   useEffect(() => {
-    // query
     const promise = dispatch(getAllBooks(currentPage));
 
     return () => {
@@ -47,7 +43,10 @@ function Books() {
       <div className="posts">
         {books.map((book) => (
           <section key={`${book._id}`} className="book">
-            <img src={Bookplaceholder} alt={'bookPlaceholder'} />
+            <img
+              src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
+              alt={'bookPlaceholder'}
+            />
             <div className="bookInfoSection">
               <Link to={`${book._id}`}>
                 <h2 className="bookTitle"> {book.title} </h2>

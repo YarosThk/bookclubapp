@@ -3,6 +3,21 @@ import axios from 'axios';
 
 const BASE_URL = '/api/books/';
 
+const uploadBookRequest = async (bookData, token) => {
+  console.log(bookData);
+  const request = await axios({
+    method: 'POST',
+    url: BASE_URL,
+    data: bookData,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  console.log(request);
+  return request.data;
+};
+
 const getBooksRequest = async (page) => {
   const request = await axios({
     method: 'GET',
@@ -85,6 +100,7 @@ const getBookByIdRequest = async (bookId) => {
 };
 
 const bookServices = {
+  uploadBookRequest,
   getBooksRequest,
   getBookByIdRequest,
   getBooksByUserRequest,

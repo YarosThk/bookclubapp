@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getBooksByUser, reset } from '../features/books/bookSlice';
 import PageComponent from './PageComponent';
 import Loader from './Loader';
-import Bookplaceholder from '../pages/Bookplaceholder.png';
 
 function UserBooks() {
   const { user } = useSelector((state) => state.auth);
@@ -19,6 +18,7 @@ function UserBooks() {
   const previousPage = () => {
     setCurrentPage(currentPage - 1);
   };
+
   const nextPage = () => {
     setCurrentPage(currentPage + 1);
   };
@@ -43,12 +43,23 @@ function UserBooks() {
         <div>
           {books.map((book) => (
             <section className="book" key={book._id}>
-              <img src={Bookplaceholder} alt={'bookPlaceholder'} />
+              <img
+                src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
+                alt={'bookPlaceholder'}
+              />
               <div className="bookInfoSection">
-                <Link to={`${book._id}`}>
-                  <h2 className="bookTitle"> {book.title} </h2>
-                </Link>
-                <p className="bookTitle"> {book.author} </p>
+                <div className="content-heading">
+                  <div className="left-wrapper">
+                    <Link to={`/books/${book._id}`}>
+                      <h2> {book.title} </h2>
+                    </Link>
+                  </div>
+                  <div className="right-wrapper">
+                    <button className="comment-btn">Delete</button>
+                  </div>
+                </div>
+                <p> {book.author} </p>
+                <p> {book.description} </p>
               </div>
             </section>
           ))}
@@ -57,9 +68,7 @@ function UserBooks() {
       <PageComponent
         paginationObject={pagination}
         currentPage={currentPage}
-        handlePageClick={handlePageClick}
-        previousPage={previousPage}
-        nextPage={nextPage}
+        setCurrentPage={setCurrentPage}
       />
     </>
   );

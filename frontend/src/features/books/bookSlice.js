@@ -10,7 +10,19 @@ const initialState = {
   message: '',
 };
 
-export const createBook = createAsyncThunk('book/createBook', async (bookData, thunkAPI) => {});
+export const createBook = createAsyncThunk('book/createBook', async (bookData, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token;
+    return await bookServices.uploadBookRequest(bookData, token);
+  } catch (error) {
+    // thunk api with error message
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString(); //if any of those exists we want to put that in message variable
+    return thunkAPI.rejectWithValue(message); //will return the payload with error message
+  }
+});
 export const udpateBook = createAsyncThunk('book/udpateBook', async (bookData, thunkAPI) => {});
 export const deleteBook = createAsyncThunk('book/deleteBook', async (bookData, thunkAPI) => {});
 
@@ -70,6 +82,22 @@ const bookSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(createBook.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(createBook.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+    });
+    builder.addCase(createBook.rejected, (state, action) => {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      }
+    });
     builder.addCase(getAllBooks.pending, (state) => {
       state.isLoading = true;
     });

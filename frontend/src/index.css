@@ -109,7 +109,7 @@ h3 {
   color: #777;
 }
 
-.posts {
+.books {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -130,13 +130,16 @@ h3 {
 }
 
 .bookInfoSection {
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .book h2 {
   width: 100%;
+  text-align: left;
 }
+
 .book p {
   width: 100%;
   text-align: left;
@@ -148,36 +151,57 @@ h3 {
 }
 
 .comments {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: 0 0px 100px;
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
 }
 
 .comment {
+  display: flex;
+  flex-direction: column;
   margin: 10px 0;
   padding: 5px;
   text-align: left;
 }
 
-.comment-heading {
+.content-heading {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
-.right-wrapper {
-  display: flex;
+.comment-btn {
+  min-width: 20px;
+  border: none;
+  padding: 5px;
+  margin-right: 0.5rem;
+  color: #000;
+  font-size: 12px;
+  cursor: pointer;
 }
+
+.comment-btn:hover {
+  color: #777;
+}
+
+.comment-body {
+  margin-left: 0.5rem;
+}
+
+.right-wrapper,
+.left-wrapper {
+  display: flex;
+  align-items: center;
+}
+
 .right-wrapper p {
   margin-right: 20px;
-}
-
-.right-wrapper select {
-  height: 25px;
+  font-size: 12px;
 }
 
 .pagination {
@@ -187,8 +211,10 @@ h3 {
 }
 
 .pagination button {
+  border: 1px solid #000;
+  background: transparent;
   cursor: pointer;
-  padding: 7px 15px;
+  padding: 5px 15px;
   margin-right: 5px;
 }
 
@@ -197,14 +223,14 @@ h3 {
   color: #fff;
 }
 
-.pageNumbers {
+.page-numbers {
   width: 100%;
   list-style: none;
   display: flex;
   flex-direction: row;
 }
 
-.pageNumbers li {
+.page-numbers li {
   padding: 10px;
   border: 1px solid black;
   cursor: pointer;
@@ -237,26 +263,47 @@ h3 {
   margin: 0 0 5px 3px;
 }
 
-.btn-outer-block {
-  display: flex;
-  justify-content: left;
+.btn {
+  width: 100px;
+  height: 40px;
+  padding: 10px 10px;
+  border: 2px solid #000;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15;
+  font-weight: 400;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+}
+
+.btn-logout {
+  background: #000;
+  color: #fff;
+  z-index: 1;
+}
+.btn-logout:after {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  background: #ffffff;
+  transition: all 0.3s ease;
+}
+.btn-logout:hover {
+  color: #000;
+}
+.btn-logout:hover:after {
+  left: 0;
   width: 100%;
 }
 
-.btn {
-  min-width: 30px;
-  padding: 5px 5px;
-  border: 1px solid rgb(170, 170, 170);
-  border-radius: 5px;
-  /* background: rgb(181, 178, 178); */
-  color: #000;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  appearance: button;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.btn-logout:active {
+  top: 2px;
 }
 
 .btn-ellipsis {
@@ -269,12 +316,6 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.btn-block {
-  display: flex;
-  justify-content: space-between;
-  width: 40%;
 }
 
 .btn svg {

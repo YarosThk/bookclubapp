@@ -38,7 +38,7 @@ function CommentForm({ bookId }) {
           </textarea>
         </div>
         <div className="form-group">
-          <button className="btn btn-block" type="submit" disabled={user ? false : true}>
+          <button className="btn btn-action" type="submit" disabled={user ? false : true}>
             Submit
           </button>
         </div>

@@ -8,7 +8,6 @@ import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
 import CommentComponent from '../components/CommentComponent';
-import Bookplaceholder from './Bookplaceholder.png';
 
 function BookPage() {
   const { books, isError, isLoading } = useSelector((state) => state.book);
@@ -56,10 +55,13 @@ function BookPage() {
   return (
     <>
       <ToastContainer />
-      <div className="posts">
+      <div className="books">
         {books.map((book) => (
           <section key={`${book._id}`} className="book">
-            <img src={Bookplaceholder} alt={'bookPlaceholder'} />
+            <img
+              src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
+              alt={'bookPlaceholder'}
+            />
             <div className="bookInfoSection">
               <h2 className="bookTitle"> {book.title} </h2>
               <p className="bookTitle"> {book.author} </p>

@@ -93,15 +93,11 @@ function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
     <>
       {totalPages > 1 && (
         <div className="pagination">
-          <button className="paginationPrev" onClick={previousPage} disabled={currentPage === 1}>
+          <button onClick={previousPage} disabled={currentPage === 1}>
             &#171;
           </button>
           {muiddlePagination}
-          <button
-            className="paginationNext"
-            onClick={nextPage}
-            disabled={currentPage === totalPages}
-          >
+          <button onClick={nextPage} disabled={currentPage === totalPages}>
             &#187;
           </button>
         </div>

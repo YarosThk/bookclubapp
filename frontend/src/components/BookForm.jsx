@@ -1,6 +1,7 @@
 import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { createBook, reset } from '../features/books/bookSlice';
 import Loader from '../components/Loader';
 
 function BookForm() {
@@ -10,9 +11,48 @@ function BookForm() {
     description: '',
     bookCover: '',
   });
+  const { isLoading, isSuccess, isError, message } = useSelector((state) => state.book);
   const { title, author, description, bookCover } = registrationForm;
+  const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(false);
+  const [validationError, setValidationError] = useState('');
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+    // if (isSuccess) {
+    //   toast.success('Book uploaded');
+    // }
+
+    dispatch(reset());
+  }, [isSuccess, isError, message, dispatch]);
+
+  const validateSelectedFile = (cover) => {
+    const MAX_FILE_SIZE = 5120; // 5MB
+
+    const fileSizeKiloBytes = cover.size / 1024;
+
+    if (fileSizeKiloBytes > MAX_FILE_SIZE) {
+      setValidationError('File size is greater than maximum limit');
+      setIsValid(false);
+      return;
+    }
+
+    setValidationError('');
+    setIsValid(true);
+  };
+
   const onSubmit = (e) => {
-    e.preventDefault();
+    if (isValid) {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('author', author);
+      formData.append('description', description);
+      formData.append('bookCover', bookCover);
+      dispatch(createBook(formData));
+    }
   };
 
   const onChange = (e) => {
@@ -21,6 +61,15 @@ function BookForm() {
       [e.target.name]: e.target.value, //e.target.name let's us refere for the name attribute of the field
     }));
   };
+
+  const onChangeCover = (e) => {
+    validateSelectedFile(e.target.files[0]);
+    setRegistrationForm((prevState) => ({
+      ...prevState,
+      bookCover: e.target.files[0], //e.target.name let's us refere for the name attribute of the field
+    }));
+  };
+
   return (
     <>
       <ToastContainer />
@@ -29,7 +78,7 @@ function BookForm() {
       </section>
 
       <section className="form">
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} encType="multipart/form-data">
           <div className="form-group">
             <input
               type="text"
@@ -37,7 +86,7 @@ function BookForm() {
               id="title"
               name="title"
               value={title}
-              required={true}
+              // required={true}
               placeholder="Book title"
               onChange={onChange}
             />
@@ -51,7 +100,7 @@ function BookForm() {
               placeholder="Author"
               onChange={onChange}
             />
-            <input
+            <textarea
               type="text"
               className="form-control"
               id="description"
@@ -60,22 +109,26 @@ function BookForm() {
               required={true}
               placeholder="Book description"
               onChange={onChange}
-            />
+            >
+              {' '}
+            </textarea>
             <input
               type="file"
+              accept=".png, .jpg, .jpeg"
               className="form-control"
               id="bookCover"
               name="bookCover"
-              value={bookCover}
               required={true}
               placeholder="Book cover"
-              onChange={onChange}
+              onChange={onChangeCover}
             />
+            <p className="info-message">Max size: 5MB</p>
+            <p className="info-message">{validationError}</p>
           </div>
           <div className="form-group">
-            <button type="submit" className="btn">
+            <button type="submit" className="btn" disabled={isValid ? false : true}>
               {' '}
-              Submit{' '}
+              Upload{' '}
             </button>
           </div>
         </form>

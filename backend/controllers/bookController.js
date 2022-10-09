@@ -1,6 +1,28 @@
+const multer = require('multer');
+const path = require('path');
+const { v4: uuidv4 } = require('uuid');
 const Book = require('../models/bookModel');
 const User = require('../models/userModel');
 
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, './frontend/public/uploads');
+  },
+  filename: (req, file, callback) => {
+    callback(null, uuidv4() + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const fileFilter = (req, file, callback) => {
+  const allowedFileTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+  if (allowedFileTypes.includes(file.mimetype)) {
+    callback(null, true);
+  } else {
+    callback(null, false);
+  }
+};
+
+const upload = multer({ storage, fileFilter });
 // @desc GET all books
 // @route GET api/books/?page=1
 // @access Public
@@ -120,6 +142,7 @@ const createBook = async (req, res, next) => {
       title: req.body.title,
       author: req.body.author,
       description: req.body.description,
+      cover: req.file.filename,
     });
 
     res.status(200);
@@ -133,17 +156,12 @@ const createBook = async (req, res, next) => {
 // @route PUT api/books/:bookId
 // @access Private/admin
 const updateBook = async (req, res, next) => {
+  // when updating the book cover, i need to delete the previous
   try {
     if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
       // Checking if Id formad is correct before querying with wrong id
       res.status(400);
       throw new Error('Invalid book Id');
-    }
-
-    // Check if user found after authorization
-    if (!req.user.id) {
-      res.status(401);
-      throw new Error('User not found');
     }
 
     const book = await Book.findById(req.params.bookId);
@@ -172,12 +190,6 @@ const deleteBook = async (req, res, next) => {
       throw new Error('Invalid book Id');
     }
 
-    // Check if user found after authorization
-    if (!req.user.id) {
-      res.status(401);
-      throw new Error('User not found');
-    }
-
     const book = await Book.findById(req.params.bookId);
     if (!book) {
       res.status(400);
@@ -192,6 +204,7 @@ const deleteBook = async (req, res, next) => {
 };
 
 module.exports = {
+  upload,
   getAllBooks,
   getUserBooks,
   getBook,
