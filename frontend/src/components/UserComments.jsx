@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllUserComments, resetComments } from '../features/comments/commentsSlice';
 import PageComponent from './PageComponent';
-import CommentComponent from '../components/CommentComponent';
+import CommentsComponent from './CommentsComponent';
 import Loader from './Loader';
 
 function UserComments() {
@@ -29,7 +29,7 @@ function UserComments() {
 
   return (
     <>
-      {isErrorComments ? <p>Error while loading comments.</p> : <CommentComponent />}
+      {isErrorComments ? <p>Error while loading comments.</p> : <CommentsComponent />}
       <PageComponent
         paginationObject={paginationComments}
         currentPage={currentPage}

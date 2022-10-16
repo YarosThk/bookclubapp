@@ -4,7 +4,6 @@ import axios from 'axios';
 const BASE_URL = '/api/books/';
 
 const uploadBookRequest = async (bookData, token) => {
-  console.log(bookData);
   const request = await axios({
     method: 'POST',
     url: BASE_URL,
@@ -14,7 +13,17 @@ const uploadBookRequest = async (bookData, token) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-  console.log(request);
+  return request.data;
+};
+
+const deleteBookRequest = async (bookId, token) => {
+  const request = await axios({
+    method: 'DELETE',
+    url: `/api/books/${bookId}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return request.data;
 };
 
@@ -101,6 +110,7 @@ const getBookByIdRequest = async (bookId) => {
 
 const bookServices = {
   uploadBookRequest,
+  deleteBookRequest,
   getBooksRequest,
   getBookByIdRequest,
   getBooksByUserRequest,

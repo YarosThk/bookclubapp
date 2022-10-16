@@ -1,15 +1,17 @@
-import { useState } from 'react';
 import { deleteComment } from '../features/comments/commentsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-function CommentComponent() {
-  const [action, setAction] = useState('');
+function CommentsComponent() {
   const { user } = useSelector((state) => state.auth);
   const { comments } = useSelector((state) => state.comment);
   const dispatch = useDispatch();
 
   const handleDelete = (commentId) => {
     dispatch(deleteComment(commentId));
+  };
+
+  const handleEdit = (commentId) => {
+    console.log('Should edit the comment');
   };
 
   return (
@@ -24,7 +26,7 @@ function CommentComponent() {
               <p>{comment.createdAt.substring(0, 10)}</p>
               {comment.userId === user._id ? (
                 <>
-                  <button className="comment-btn" onClick={() => handleDelete(comment._id)}>
+                  <button className="comment-btn" onClick={() => handleEdit(comment._id)}>
                     Edit
                   </button>
                   <button className="comment-btn" onClick={() => handleDelete(comment._id)}>
@@ -41,4 +43,4 @@ function CommentComponent() {
   );
 }
 
-export default CommentComponent;
+export default CommentsComponent;

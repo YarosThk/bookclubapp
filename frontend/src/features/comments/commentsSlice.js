@@ -97,42 +97,6 @@ const commentSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getAllBookComments.pending, (state) => {
-      state.isLoadingComments = true;
-    });
-    builder.addCase(getAllBookComments.fulfilled, (state, action) => {
-      state.isLoadingComments = false;
-      state.isSuccessComments = true;
-      state.comments = [...action.payload.payload];
-      state.paginationComments = action.payload.paginationInfo;
-    });
-    builder.addCase(getAllBookComments.rejected, (state, action) => {
-      // Case were we run an abort() in useEffect cleanup
-      // Update state unless request was aborted while running
-      if (!action.meta.aborted) {
-        state.isLoadingComments = false;
-        state.isErrorComments = true;
-        state.messageComments = action.payload;
-      }
-    });
-    builder.addCase(getAllUserComments.pending, (state) => {
-      state.isLoadingComments = true;
-    });
-    builder.addCase(getAllUserComments.fulfilled, (state, action) => {
-      state.isLoadingComments = false;
-      state.isSuccessComments = true;
-      state.comments = [...action.payload.payload];
-      state.paginationComments = action.payload.paginationInfo;
-    });
-    builder.addCase(getAllUserComments.rejected, (state, action) => {
-      // Case were we run an abort() in useEffect cleanup
-      // Update state unless request was aborted while running
-      if (!action.meta.aborted) {
-        state.isLoadingComments = false;
-        state.isErrorComments = true;
-        state.messageComments = action.payload;
-      }
-    });
     builder.addCase(createComment.pending, (state) => {
       state.isLoadingComments = true;
     });
@@ -162,6 +126,42 @@ const commentSlice = createSlice({
       state.messageComments = action.payload.message;
     });
     builder.addCase(deleteComment.rejected, (state, action) => {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoadingComments = false;
+        state.isErrorComments = true;
+        state.messageComments = action.payload;
+      }
+    });
+    builder.addCase(getAllBookComments.pending, (state) => {
+      state.isLoadingComments = true;
+    });
+    builder.addCase(getAllBookComments.fulfilled, (state, action) => {
+      state.isLoadingComments = false;
+      state.isSuccessComments = true;
+      state.comments = [...action.payload.payload];
+      state.paginationComments = action.payload.paginationInfo;
+    });
+    builder.addCase(getAllBookComments.rejected, (state, action) => {
+      // Case were we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoadingComments = false;
+        state.isErrorComments = true;
+        state.messageComments = action.payload;
+      }
+    });
+    builder.addCase(getAllUserComments.pending, (state) => {
+      state.isLoadingComments = true;
+    });
+    builder.addCase(getAllUserComments.fulfilled, (state, action) => {
+      state.isLoadingComments = false;
+      state.isSuccessComments = true;
+      state.comments = [...action.payload.payload];
+      state.paginationComments = action.payload.paginationInfo;
+    });
+    builder.addCase(getAllUserComments.rejected, (state, action) => {
       // Case were we run an abort() in useEffect cleanup
       // Update state unless request was aborted while running
       if (!action.meta.aborted) {

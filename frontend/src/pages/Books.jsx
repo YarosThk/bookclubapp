@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reset, getAllBooks } from '../features/books/bookSlice';
 import Loader from '../components/Loader';
+import BooksComponent from '../components/BooksComponent';
 import PageComponent from '../components/PageComponent';
 
 function Books() {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
-  const { books, isLoading, isError, pagination } = useSelector((state) => state.book);
+  const { isLoading, isError, pagination } = useSelector((state) => state.book);
 
   useEffect(() => {
     const promise = dispatch(getAllBooks(currentPage));
@@ -40,27 +41,14 @@ function Books() {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
       />
-      <div className="posts">
-        {books.map((book) => (
-          <section key={`${book._id}`} className="book">
-            <img
-              src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
-              alt={'bookPlaceholder'}
-            />
-            <div className="bookInfoSection">
-              <Link to={`${book._id}`}>
-                <h2 className="bookTitle"> {book.title} </h2>
-              </Link>
-              <p className="bookTitle"> {book.author} </p>
-            </div>
-          </section>
-        ))}
-        <PageComponent
-          paginationObject={pagination}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
+      <div className="books">
+        <BooksComponent />
       </div>
+      <PageComponent
+        paginationObject={pagination}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+      />
     </>
   );
 }

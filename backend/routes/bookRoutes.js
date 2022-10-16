@@ -21,6 +21,6 @@ router.get('/:bookId', getBook);
 router.get('/:bookId/comments', getBookComments); // Get all comments for a specific book.
 router.post('/', authMiddleware, adminCheck, upload.single('bookCover'), createBook); // Should be done by Admin role
 router.put('/:bookId', authMiddleware, adminCheck, updateBook); // Should be done by Admin role
-router.delete('/:bookId', authMiddleware, adminCheck, deleteBook); // Should be done by Admin role
+router.delete('/:bookId', authMiddleware, adminCheck, deleteBook); // Should be done by Admin role, regardless of which admin created a book
 
 module.exports = router;

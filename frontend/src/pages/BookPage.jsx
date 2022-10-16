@@ -7,7 +7,7 @@ import { getAllBookComments, resetComments } from '../features/comments/comments
 import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
-import CommentComponent from '../components/CommentComponent';
+import CommentsComponent from '../components/CommentsComponent';
 
 function BookPage() {
   const { books, isError, isLoading } = useSelector((state) => state.book);
@@ -69,7 +69,7 @@ function BookPage() {
           </section>
         ))}
         <CommentForm bookId={bookId} />
-        {isErrorComments ? <p>{messageComments}</p> : <CommentComponent />}
+        {isErrorComments ? <p>{messageComments}</p> : <CommentsComponent />}
       </div>
       <PageComponent
         paginationObject={paginationComments}

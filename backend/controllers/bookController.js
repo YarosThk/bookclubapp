@@ -1,9 +1,16 @@
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const Book = require('../models/bookModel');
-const User = require('../models/userModel');
 
+const removeCover = async (fileName) => {
+  try {
+    fs.unlinkSync(`./frontend/public/uploads/${fileName}`);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, './frontend/public/uploads');
@@ -23,6 +30,7 @@ const fileFilter = (req, file, callback) => {
 };
 
 const upload = multer({ storage, fileFilter });
+
 // @desc GET all books
 // @route GET api/books/?page=1
 // @access Public
@@ -134,6 +142,7 @@ const getBook = async (req, res, next) => {
 const createBook = async (req, res, next) => {
   try {
     if (!req.user.id || !req.body.title || !req.body.author || !req.body.description) {
+      await removeCover(req.file.filename);
       res.status(400);
       throw new Error('Missing required book data.');
     }
@@ -184,6 +193,11 @@ const updateBook = async (req, res, next) => {
 // @access Private/admin
 const deleteBook = async (req, res, next) => {
   try {
+    if (!req.params.bookId) {
+      res.status(400);
+      throw new Error('Missing comment id parameter');
+    }
+
     if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
       // Checking if Id formad is correct before querying with wrong id
       res.status(400);
@@ -195,9 +209,13 @@ const deleteBook = async (req, res, next) => {
       res.status(400);
       throw new Error('Book with this id does not exist');
     }
+
+    if (book.cover) {
+      await removeCover(book.cover);
+    }
     book.remove();
     res.status(200);
-    res.json({ id: req.params.bookId });
+    res.json({ message: 'Book deleted', payload: book });
   } catch (error) {
     next(error);
   }

@@ -21,11 +21,12 @@ function BookForm() {
     if (isError) {
       toast.error(message);
     }
-    // if (isSuccess) {
-    //   toast.success('Book uploaded');
-    // }
-
-    dispatch(reset());
+    if (isSuccess) {
+      toast.success('Book uploaded');
+    }
+    return () => {
+      dispatch(reset());
+    };
   }, [isSuccess, isError, message, dispatch]);
 
   const validateSelectedFile = (cover) => {
@@ -69,6 +70,10 @@ function BookForm() {
       bookCover: e.target.files[0], //e.target.name let's us refere for the name attribute of the field
     }));
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>

@@ -13,8 +13,6 @@ const getCommentsByBookRequest = async (bookId, page) => {
 };
 
 const getCommentsByUserRequest = async (userId, page, token) => {
-  // needs also pagination
-  // const page = 1;
   const response = await axios({
     method: 'GET',
     url: `/api/users/${userId}/comments?page=${page}`,
@@ -47,7 +45,7 @@ const deleteCommentRequest = async (commentId, token) => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(response.data);
+
   return response.data;
 };
 

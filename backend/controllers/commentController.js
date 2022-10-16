@@ -154,6 +154,16 @@ const updateComment = async (req, res, next) => {
 // @access Private/admin
 const deleteComment = async (req, res, next) => {
   try {
+    if (!req.params.commentId) {
+      res.status(400);
+      throw new Error('Missing comment id parameter');
+    }
+
+    if (!req.params.commentId.match(/^[0-9a-fA-F]{24}$/)) {
+      // Checking if Id formad is correct before querying with wrong id
+      res.status(400);
+      throw new Error('Invalid comment Id');
+    }
     const comment = await Comment.findById(req.params.commentId);
     await Comment.deleteOne(comment);
 
