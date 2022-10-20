@@ -1,29 +1,35 @@
 import { Link } from 'react-router-dom';
-import { deleteBook } from '../features/books/bookSlice';
+import { deleteBook } from '../../features/books/bookSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-function BooksComponent() {
+function BooksComponent({ controlsToggle }) {
   const { user } = useSelector((state) => state.auth);
   const { books } = useSelector((state) => state.book);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleDelete = (bookId) => {
     dispatch(deleteBook(bookId));
   };
 
-  const handleEdit = (bookId) => {
-    console.log('Should edit the book');
+  const navigateToEditPage = (bookId) => {
+    navigate(`/books/${bookId}/edit`);
+  };
+
+  const summarize = (text, size) => {
+    return text.length > size ? text.slice(0, size - 1) + '…' : text;
   };
 
   return (
-    <div>
+    <div className="books">
       {books.map((book) => (
         <section className="book" key={book._id}>
           <img
             src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
             alt={'bookPlaceholder'}
           />
-          <div className="bookInfoSection">
+          <div className="book-info-section">
             <div className="content-heading">
               <div className="left-wrapper">
                 <Link to={`/books/${book._id}`}>
@@ -31,9 +37,9 @@ function BooksComponent() {
                 </Link>
               </div>
               <div className="right-wrapper">
-                {book.user === user._id ? (
+                {book.user === user._id && controlsToggle ? (
                   <>
-                    <button className="comment-btn" onClick={() => handleEdit(book._id)}>
+                    <button className="comment-btn" onClick={() => navigateToEditPage(book._id)}>
                       Edit
                     </button>
                     <button className="comment-btn" onClick={() => handleDelete(book._id)}>
@@ -44,7 +50,7 @@ function BooksComponent() {
               </div>
             </div>
             <p> {book.author} </p>
-            <p> {book.description} </p>
+            <p> {summarize(book.description, 160)} </p>
           </div>
         </section>
       ))}

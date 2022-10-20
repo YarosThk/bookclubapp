@@ -1,33 +1,11 @@
-import { ToastContainer, toast } from 'react-toastify';
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { createBook, reset } from '../features/books/bookSlice';
-import Loader from '../components/Loader';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-function BookForm() {
-  const [registrationForm, setRegistrationForm] = useState({
-    title: '',
-    author: '',
-    description: '',
-    bookCover: '',
-  });
-  const { isLoading, isSuccess, isError, message } = useSelector((state) => state.book);
-  const { title, author, description, bookCover } = registrationForm;
+function BookForm({ bookData, setBookData, submitFunction }) {
+  const { title, author, description, bookCover } = bookData;
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const [validationError, setValidationError] = useState('');
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(message);
-    }
-    if (isSuccess) {
-      toast.success('Book uploaded');
-    }
-    return () => {
-      dispatch(reset());
-    };
-  }, [isSuccess, isError, message, dispatch]);
 
   const validateSelectedFile = (cover) => {
     const MAX_FILE_SIZE = 5120; // 5MB
@@ -52,12 +30,12 @@ function BookForm() {
       formData.append('author', author);
       formData.append('description', description);
       formData.append('bookCover', bookCover);
-      dispatch(createBook(formData));
+      dispatch(submitFunction(formData));
     }
   };
 
   const onChange = (e) => {
-    setRegistrationForm((prevState) => ({
+    setBookData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value, //e.target.name let's us refere for the name attribute of the field
     }));
@@ -65,19 +43,14 @@ function BookForm() {
 
   const onChangeCover = (e) => {
     validateSelectedFile(e.target.files[0]);
-    setRegistrationForm((prevState) => ({
+    setBookData((prevState) => ({
       ...prevState,
       bookCover: e.target.files[0], //e.target.name let's us refere for the name attribute of the field
     }));
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
   return (
     <>
-      <ToastContainer />
       <section className="heading">
         <p>Book form</p>
       </section>
@@ -91,7 +64,7 @@ function BookForm() {
               id="title"
               name="title"
               value={title}
-              // required={true}
+              required={true}
               placeholder="Book title"
               onChange={onChange}
             />
@@ -112,6 +85,7 @@ function BookForm() {
               name="description"
               value={description}
               required={true}
+              maxLength="250"
               placeholder="Book description"
               onChange={onChange}
             >

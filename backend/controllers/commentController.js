@@ -1,4 +1,3 @@
-const User = require('../models/userModel');
 const Book = require('../models/bookModel');
 const Comment = require('../models/commentModel');
 

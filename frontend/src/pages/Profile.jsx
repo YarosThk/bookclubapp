@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 
@@ -28,9 +28,11 @@ function Profile() {
                 <li>
                   <Link to="new-book"> New Book </Link>
                 </li>
+                |
                 <li>
                   <Link to="books"> Books</Link>
                 </li>
+                |
               </>
             ) : null}
             <li>

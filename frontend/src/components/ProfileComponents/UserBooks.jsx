@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getBooksByUser, reset } from '../features/books/bookSlice';
-import BooksComponent from './BooksComponent';
-import PageComponent from './PageComponent';
-import Loader from './Loader';
+import { getBooksByUser, reset } from '../../features/books/bookSlice';
+import BooksComponent from '../BooksComponents/BooksComponent';
+import PageComponent from '../PageComponent';
+import Loader from '../Loader';
 
 function UserBooks() {
   const { user } = useSelector((state) => state.auth);
@@ -25,7 +25,7 @@ function UserBooks() {
 
   return (
     <>
-      {isError ? <p>Error while loading books.</p> : <BooksComponent />}
+      {isError ? <p>Error while loading books.</p> : <BooksComponent controlsToggle={true} />}
       <PageComponent
         paginationObject={pagination}
         currentPage={currentPage}

@@ -24,7 +24,9 @@ export const createBook = createAsyncThunk('book/createBook', async (bookData, t
   }
 });
 
-export const updateBook = createAsyncThunk('book/udpateBook', async (bookData, thunkAPI) => {});
+export const updateBook = createAsyncThunk('book/udpateBook', async (bookData, thunkAPI) => {
+  // console.log('Should update book');
+});
 export const deleteBook = createAsyncThunk('book/deleteBook', async (bookId, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;

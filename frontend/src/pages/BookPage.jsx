@@ -62,9 +62,14 @@ function BookPage() {
               src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
               alt={'bookPlaceholder'}
             />
-            <div className="bookInfoSection">
-              <h2 className="bookTitle"> {book.title} </h2>
-              <p className="bookTitle"> {book.author} </p>
+            <div className="book-info-section">
+              <div className="content-heading">
+                <div className="leaft-wrapper">
+                  <h2 className="bookTitle"> {book.title} </h2>
+                  <p className="bookTitle"> {book.author} </p>
+                </div>
+              </div>
+              <p> {book.description} </p>
             </div>
           </section>
         ))}

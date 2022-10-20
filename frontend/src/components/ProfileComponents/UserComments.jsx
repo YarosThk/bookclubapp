@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getAllUserComments, resetComments } from '../features/comments/commentsSlice';
-import PageComponent from './PageComponent';
-import CommentsComponent from './CommentsComponent';
-import Loader from './Loader';
+import { getAllUserComments, resetComments } from '../../features/comments/commentsSlice';
+import PageComponent from '../PageComponent';
+import CommentsComponent from '../CommentsComponent';
+import Loader from '../Loader';
 
 function UserComments() {
   const { user } = useSelector((state) => state.auth);

@@ -76,10 +76,10 @@ h3 {
 }
 
 .heading {
-  font-size: 2rem;
-  font-weight: 700;
+  width: 100%;
+  font-size: 1.8rem;
+  font-weight: 500;
   margin-bottom: 50px;
-  padding: 0 20px;
 }
 
 .heading p {
@@ -102,7 +102,8 @@ h3 {
 }
 
 .controls-header ul li {
-  margin-left: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .controls-header ul li a:hover {
@@ -110,14 +111,15 @@ h3 {
 }
 
 .books {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .book {
-  display: flex;
   width: 100%;
+  display: flex;
   border-bottom: 1px solid #e6e6e6;
   margin-bottom: 10px;
   padding: 20px 0 10px;
@@ -129,7 +131,7 @@ h3 {
   border-color: rgb(119, 119, 119);
 }
 
-.bookInfoSection {
+.book-info-section {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -360,10 +362,13 @@ h3 {
   }
 
   .heading h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   .heading p {
     font-size: 1.5rem;
+  }
+  .controls-header ul li {
+    font-size: 1rem;
   }
 }

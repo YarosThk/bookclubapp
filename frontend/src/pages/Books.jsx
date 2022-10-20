@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reset, getAllBooks } from '../features/books/bookSlice';
 import Loader from '../components/Loader';
-import BooksComponent from '../components/BooksComponent';
+import BooksComponent from '../components/BooksComponents/BooksComponent';
 import PageComponent from '../components/PageComponent';
 
 function Books() {
@@ -42,7 +42,7 @@ function Books() {
         setCurrentPage={setCurrentPage}
       />
       <div className="books">
-        <BooksComponent />
+        <BooksComponent controlsToggle={false} />
       </div>
       <PageComponent
         paginationObject={pagination}
