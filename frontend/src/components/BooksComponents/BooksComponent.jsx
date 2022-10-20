@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 function BooksComponent({ controlsToggle }) {
-  const { user } = useSelector((state) => state.auth);
   const { books } = useSelector((state) => state.book);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ function BooksComponent({ controlsToggle }) {
                 </Link>
               </div>
               <div className="right-wrapper">
-                {book.user === user._id && controlsToggle ? (
+                {controlsToggle ? (
                   <>
                     <button className="comment-btn" onClick={() => navigateToEditPage(book._id)}>
                       Edit
