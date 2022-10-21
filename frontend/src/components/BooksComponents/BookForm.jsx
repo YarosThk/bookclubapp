@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-function BookForm({ bookData, setBookData, submitFunction }) {
+function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) {
   const { title, author, description, bookCover } = bookData;
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
@@ -30,7 +30,7 @@ function BookForm({ bookData, setBookData, submitFunction }) {
       formData.append('author', author);
       formData.append('description', description);
       formData.append('bookCover', bookCover);
-      dispatch(submitFunction(formData));
+      dispatch(submitFunction({ bookId, bookData: formData }));
     }
   };
 
@@ -52,7 +52,7 @@ function BookForm({ bookData, setBookData, submitFunction }) {
   return (
     <>
       <section className="heading">
-        <p>Book form</p>
+        <p>{formTitle}</p>
       </section>
 
       <section className="form">

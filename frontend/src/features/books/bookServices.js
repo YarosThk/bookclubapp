@@ -16,6 +16,19 @@ const uploadBookRequest = async (bookData, token) => {
   return request.data;
 };
 
+const updateBookRequest = async (bookId, bookData, token) => {
+  const request = await axios({
+    method: 'PUT',
+    url: BASE_URL + bookId,
+    data: bookData,
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  console.log(request);
+  return request.data;
+};
 const deleteBookRequest = async (bookId, token) => {
   const request = await axios({
     method: 'DELETE',
@@ -110,6 +123,7 @@ const getBookByIdRequest = async (bookId) => {
 
 const bookServices = {
   uploadBookRequest,
+  updateBookRequest,
   deleteBookRequest,
   getBooksRequest,
   getBookByIdRequest,

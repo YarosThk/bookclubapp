@@ -56,23 +56,23 @@ function BookPage() {
     <>
       <ToastContainer />
       <div className="books">
-        {books.map((book) => (
-          <section key={`${book._id}`} className="book">
+        {books[0] && (
+          <section key={`${books[0]._id}`} className="book">
             <img
-              src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
+              src={books[0].cover ? `/uploads/${books[0].cover}` : '/uploads/Bookplaceholder.png'}
               alt={'bookPlaceholder'}
             />
             <div className="book-info-section">
               <div className="content-heading">
                 <div className="leaft-wrapper">
-                  <h2 className="bookTitle"> {book.title} </h2>
-                  <p className="bookTitle"> {book.author} </p>
+                  <h2 className="bookTitle"> {books[0].title} </h2>
+                  <p className="bookTitle"> {books[0].author} </p>
                 </div>
               </div>
-              <p> {book.description} </p>
+              <p> {books[0].description} </p>
             </div>
           </section>
-        ))}
+        )}
         <CommentForm bookId={bookId} />
         {isErrorComments ? <p>{messageComments}</p> : <CommentsComponent />}
       </div>

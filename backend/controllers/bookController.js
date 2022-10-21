@@ -146,6 +146,7 @@ const createBook = async (req, res, next) => {
       res.status(400);
       throw new Error('Missing required book data.');
     }
+
     const book = await Book.create({
       user: req.user.id, // Coming from the auth middleware
       title: req.body.title,
@@ -169,6 +170,7 @@ const updateBook = async (req, res, next) => {
   try {
     if (!req.params.bookId.match(/^[0-9a-fA-F]{24}$/)) {
       // Checking if Id formad is correct before querying with wrong id
+      await removeCover(req.file.filename);
       res.status(400);
       throw new Error('Invalid book Id');
     }
@@ -179,8 +181,20 @@ const updateBook = async (req, res, next) => {
       throw new Error('Book with this id does not exist');
     }
 
-    const update = { user: req.user.id, ...req.body }; // When another admin updates, we want to update the relational user id of the admin
-    const updatedBook = await Book.findByIdAndUpdate(req.params.id, update, { new: true });
+    // Remove previous cover
+    if (book.cover) {
+      await removeCover(book.cover);
+    }
+
+    const update = {
+      user: req.user.id,
+      title: req.body.title,
+      author: req.body.author,
+      description: req.body.description,
+      cover: req.file.filename,
+    }; // When another admin updates, we want to update the relational user id of the admin
+
+    const updatedBook = await Book.findByIdAndUpdate(req.params.bookId, update, { new: true });
     res.status(200);
     res.json({ updatedBook });
   } catch (error) {
@@ -210,6 +224,7 @@ const deleteBook = async (req, res, next) => {
       throw new Error('Book with this id does not exist');
     }
 
+    // Remove previous cover
     if (book.cover) {
       await removeCover(book.cover);
     }

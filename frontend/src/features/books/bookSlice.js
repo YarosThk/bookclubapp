@@ -10,9 +10,10 @@ const initialState = {
   message: '',
 };
 
-export const createBook = createAsyncThunk('book/createBook', async (bookData, thunkAPI) => {
+export const createBook = createAsyncThunk('book/createBook', async (requestData, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
+    const { bookData } = requestData;
     return await bookServices.uploadBookRequest(bookData, token);
   } catch (error) {
     // thunk api with error message
@@ -24,8 +25,19 @@ export const createBook = createAsyncThunk('book/createBook', async (bookData, t
   }
 });
 
-export const updateBook = createAsyncThunk('book/udpateBook', async (bookData, thunkAPI) => {
-  // console.log('Should update book');
+export const updateBook = createAsyncThunk('book/updateBook', async (requestData, thunkAPI) => {
+  try {
+    const token = thunkAPI.getState().auth.user.token;
+    const { bookId, bookData } = requestData;
+    return await bookServices.updateBookRequest(bookId, bookData, token);
+  } catch (error) {
+    // thunk api with error message
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString(); //if any of those exists we want to put that in message variable
+    return thunkAPI.rejectWithValue(message); //will return the payload with error message
+  }
 });
 export const deleteBook = createAsyncThunk('book/deleteBook', async (bookId, thunkAPI) => {
   try {
@@ -105,6 +117,22 @@ const bookSlice = createSlice({
       state.isSuccess = true;
     });
     builder.addCase(createBook.rejected, (state, action) => {
+      // Case where we run an abort() in useEffect cleanup
+      // Update state unless request was aborted while running
+      if (!action.meta.aborted) {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      }
+    });
+    builder.addCase(updateBook.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateBook.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+    });
+    builder.addCase(updateBook.rejected, (state, action) => {
       // Case where we run an abort() in useEffect cleanup
       // Update state unless request was aborted while running
       if (!action.meta.aborted) {

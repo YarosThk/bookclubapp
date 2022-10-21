@@ -33,7 +33,12 @@ function NewBook() {
   return (
     <>
       <ToastContainer />
-      <BookForm bookData={newBookData} setBookData={setNewBookData} submitFunction={createBook} />
+      <BookForm
+        formTitle={'New Book'}
+        bookData={newBookData}
+        setBookData={setNewBookData}
+        submitFunction={createBook}
+      />
     </>
   );
 }
