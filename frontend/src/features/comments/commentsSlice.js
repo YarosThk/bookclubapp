@@ -106,13 +106,9 @@ const commentSlice = createSlice({
       state.comments.unshift(action.payload.payload);
     });
     builder.addCase(createComment.rejected, (state, action) => {
-      // Case were we run an abort() in useEffect cleanup
-      // Update state unless request was aborted while running
-      if (!action.meta.aborted) {
-        state.isLoadingComments = false;
-        state.isErrorComments = true;
-        state.messageComments = action.payload;
-      }
+      state.isLoadingComments = false;
+      state.isErrorComments = true;
+      state.messageComments = action.payload;
     });
     builder.addCase(deleteComment.pending, (state) => {
       state.isLoadingComments = true;
@@ -126,13 +122,9 @@ const commentSlice = createSlice({
       state.messageComments = action.payload.message;
     });
     builder.addCase(deleteComment.rejected, (state, action) => {
-      // Case were we run an abort() in useEffect cleanup
-      // Update state unless request was aborted while running
-      if (!action.meta.aborted) {
-        state.isLoadingComments = false;
-        state.isErrorComments = true;
-        state.messageComments = action.payload;
-      }
+      state.isLoadingComments = false;
+      state.isErrorComments = true;
+      state.messageComments = action.payload;
     });
     builder.addCase(getAllBookComments.pending, (state) => {
       state.isLoadingComments = true;

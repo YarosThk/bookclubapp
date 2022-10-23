@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 function Profile() {
   const { user } = useSelector((state) => state.auth);
@@ -26,17 +26,38 @@ function Profile() {
             {user.role === 'admin' ? (
               <>
                 <li>
-                  <Link to="new-book"> New Book </Link>
+                  <NavLink
+                    className={(navData) =>
+                      navData.isActive ? 'control-element active' : 'control-element'
+                    }
+                    to="new-book"
+                  >
+                    New Book
+                  </NavLink>
                 </li>
                 |
                 <li>
-                  <Link to="books"> Books</Link>
+                  <NavLink
+                    className={(navData) =>
+                      navData.isActive ? 'control-element active' : 'control-element'
+                    }
+                    to="books"
+                  >
+                    Books
+                  </NavLink>
                 </li>
                 |
               </>
             ) : null}
             <li>
-              <Link to="comments"> Comments </Link>
+              <NavLink
+                className={(navData) =>
+                  navData.isActive ? 'control-element active' : 'control-element'
+                }
+                to="comments"
+              >
+                Comments
+              </NavLink>
             </li>
           </ul>
         </div>

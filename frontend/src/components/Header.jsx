@@ -1,6 +1,6 @@
 import { FaSignInAlt, FaSignOutAlt, FaUser, FaBook, FaHome } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { logoutUser, reset } from '../features/auth/authSlice';
 
 function Header() {
@@ -21,16 +21,38 @@ function Header() {
       </div>
       <ul>
         <li>
-          <Link to="/books">
+          <NavLink
+            className={(navData) =>
+              navData.isActive ? 'control-element active' : 'control-element'
+            }
+            to="/"
+            end
+          >
+            <FaHome /> Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            className={(navData) =>
+              navData.isActive ? 'control-element active' : 'control-element'
+            }
+            to="/books"
+            end
+          >
             <FaBook /> Books
-          </Link>
+          </NavLink>
         </li>
         {user ? (
           <>
             <li>
-              <Link to={`/profile/${user._id}`}>
+              <NavLink
+                className={(navData) =>
+                  navData.isActive ? 'control-element active' : 'control-element'
+                }
+                to={`/profile/${user._id}`}
+              >
                 <FaHome /> Profile
-              </Link>
+              </NavLink>
             </li>
             <li>
               <button className="btn btn-logout" onClick={onLogout}>
@@ -42,14 +64,24 @@ function Header() {
         ) : (
           <>
             <li>
-              <Link to="/login">
+              <NavLink
+                className={(navData) =>
+                  navData.isActive ? 'control-element active' : 'control-element'
+                }
+                to="/login"
+              >
                 <FaSignInAlt /> LogIn
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/register">
+              <NavLink
+                className={(navData) =>
+                  navData.isActive ? 'control-element active' : 'control-element'
+                }
+                to="/register"
+              >
                 <FaUser /> Register
-              </Link>
+              </NavLink>
             </li>
           </>
         )}

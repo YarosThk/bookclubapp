@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, callback) => {
-  const allowedFileTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+  const allowedFileTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp'];
   if (allowedFileTypes.includes(file.mimetype)) {
     callback(null, true);
   } else {
@@ -196,7 +196,7 @@ const updateBook = async (req, res, next) => {
 
     const updatedBook = await Book.findByIdAndUpdate(req.params.bookId, update, { new: true });
     res.status(200);
-    res.json({ updatedBook });
+    res.json(updatedBook);
   } catch (error) {
     next(error);
   }

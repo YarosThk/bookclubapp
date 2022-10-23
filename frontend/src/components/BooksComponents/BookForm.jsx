@@ -85,7 +85,7 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
               name="description"
               value={description}
               required={true}
-              maxLength="250"
+              maxLength="350"
               placeholder="Book description"
               onChange={onChange}
             >
@@ -93,7 +93,7 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
             </textarea>
             <input
               type="file"
-              accept=".png, .jpg, .jpeg"
+              accept=".png, .jpg, .jpeg, .webp"
               className="form-control"
               id="bookCover"
               name="bookCover"

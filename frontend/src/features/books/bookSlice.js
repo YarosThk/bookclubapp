@@ -39,6 +39,7 @@ export const updateBook = createAsyncThunk('book/updateBook', async (requestData
     return thunkAPI.rejectWithValue(message); //will return the payload with error message
   }
 });
+
 export const deleteBook = createAsyncThunk('book/deleteBook', async (bookId, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token;
@@ -117,13 +118,9 @@ const bookSlice = createSlice({
       state.isSuccess = true;
     });
     builder.addCase(createBook.rejected, (state, action) => {
-      // Case where we run an abort() in useEffect cleanup
-      // Update state unless request was aborted while running
-      if (!action.meta.aborted) {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      }
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
     });
     builder.addCase(updateBook.pending, (state) => {
       state.isLoading = true;
@@ -131,15 +128,12 @@ const bookSlice = createSlice({
     builder.addCase(updateBook.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+      state.books = [action.payload];
     });
     builder.addCase(updateBook.rejected, (state, action) => {
-      // Case where we run an abort() in useEffect cleanup
-      // Update state unless request was aborted while running
-      if (!action.meta.aborted) {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      }
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
     });
     builder.addCase(deleteBook.pending, (state) => {
       state.isLoading = true;
@@ -181,13 +175,9 @@ const bookSlice = createSlice({
       state.books.push(action.payload);
     });
     builder.addCase(getSpecificBook.rejected, (state, action) => {
-      // Case where we run an abort() in useEffect cleanup
-      // Update state unless request was aborted while running
-      if (!action.meta.aborted) {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      }
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
     });
     builder.addCase(getBooksByUser.pending, (state) => {
       state.isLoading = true;

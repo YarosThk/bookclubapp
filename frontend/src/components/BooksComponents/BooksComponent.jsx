@@ -25,6 +25,7 @@ function BooksComponent({ controlsToggle }) {
       {books.map((book) => (
         <section className="book" key={book._id}>
           <img
+            className="book-cover"
             src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
             alt={'bookPlaceholder'}
           />
