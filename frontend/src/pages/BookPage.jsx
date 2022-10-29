@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, reset } from '../features/books/bookSlice';
 import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
+import BookItem from '../components/BooksComponents/BookItem';
 import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
 import CommentsComponent from '../components/CommentsComponent';
+import BookItemMobile from '../components/BooksComponents/BookItemMobile';
 
-function BookPage() {
+function BookPage({ windowSize }) {
   const { books, isError, isLoading } = useSelector((state) => state.book);
   const {
     paginationComments,
@@ -41,6 +43,14 @@ function BookPage() {
     };
   }, [bookId, dispatch, navigate, isError, currentPage]);
 
+  const AdaptiveBookItem = (book) => {
+    if (windowSize > 600) {
+      return <BookItem book={book} controlsToggle={false} />;
+    } else {
+      return <BookItemMobile book={book} controlsToggle={false} />;
+    }
+  };
+
   if (isLoading || isLoadingComments) {
     return <Loader />;
   }
@@ -56,23 +66,7 @@ function BookPage() {
     <>
       <ToastContainer />
       <div className="books">
-        {books[0] && (
-          <section key={`${books[0]._id}`} className="book">
-            <img
-              src={books[0].cover ? `/uploads/${books[0].cover}` : '/uploads/Bookplaceholder.png'}
-              alt={'bookPlaceholder'}
-            />
-            <div className="book-info-section">
-              <div className="content-heading">
-                <div className="leaft-wrapper">
-                  <h2 className="bookTitle"> {books[0].title} </h2>
-                  <p className="bookTitle"> {books[0].author} </p>
-                </div>
-              </div>
-              <p> {books[0].description} </p>
-            </div>
-          </section>
-        )}
+        {books[0] && AdaptiveBookItem(books[0])}
         <CommentForm bookId={bookId} />
         {isErrorComments ? <p>{messageComments}</p> : <CommentsComponent />}
       </div>

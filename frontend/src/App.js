@@ -34,10 +34,10 @@ function App() {
           {windowSize > 600 ? <Header /> : <SideNavbar />}
           <Routes>
             <Route path="/" element={<Homepage />} />
-            <Route path="/books" element={<Books />} />
-            <Route path="/books/:bookId" element={<BookPage />} />
+            <Route path="/books" element={<Books windowSize={windowSize} />} />
+            <Route path="/books/:bookId" element={<BookPage windowSize={windowSize} />} />
             <Route path="/books/:bookId/edit" element={<EditBook />} />
-            <Route path="/profile/:userId" element={<Profile />}>
+            <Route path="/profile/:userId" element={<Profile windowSize={windowSize} />}>
               <Route index element={<UserBooks />} />
               <Route path="new-book" element={<NewBook />} />
               <Route path="books" element={<UserBooks />} />

@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom';
 import { deleteBook } from '../../features/books/bookSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import BookItem from './BookItem';
+import BookItemMobile from './BookItemMobile';
 
-function BooksComponent({ controlsToggle }) {
+function BooksComponent({ controlsToggle, windowSize }) {
   const { books } = useSelector((state) => state.book);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,38 +23,27 @@ function BooksComponent({ controlsToggle }) {
 
   return (
     <div className="books">
-      {books.map((book) => (
-        <section className="book" key={book._id}>
-          <img
-            className="book-cover"
-            src={book.cover ? `/uploads/${book.cover}` : '/uploads/Bookplaceholder.png'}
-            alt={'bookPlaceholder'}
+      {books.map((book) =>
+        windowSize > 600 ? (
+          <BookItem
+            key={book._id}
+            book={book}
+            controlsToggle={controlsToggle}
+            handleDelete={handleDelete}
+            navigateToEditPage={navigateToEditPage}
+            summarize={summarize}
           />
-          <div className="book-info-section">
-            <div className="content-heading">
-              <div className="left-wrapper">
-                <Link to={`/books/${book._id}`}>
-                  <h2> {book.title} </h2>
-                </Link>
-              </div>
-              <div className="right-wrapper">
-                {controlsToggle ? (
-                  <>
-                    <button className="comment-btn" onClick={() => navigateToEditPage(book._id)}>
-                      Edit
-                    </button>
-                    <button className="comment-btn" onClick={() => handleDelete(book._id)}>
-                      Delete
-                    </button>
-                  </>
-                ) : null}
-              </div>
-            </div>
-            <p> {book.author} </p>
-            <p> {summarize(book.description, 160)} </p>
-          </div>
-        </section>
-      ))}
+        ) : (
+          <BookItemMobile
+            key={book._id}
+            book={book}
+            controlsToggle={controlsToggle}
+            handleDelete={handleDelete}
+            navigateToEditPage={navigateToEditPage}
+            summarize={summarize}
+          />
+        )
+      )}
     </div>
   );
 }

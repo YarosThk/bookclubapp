@@ -41,7 +41,6 @@ h3 {
   margin: 0 auto;
   padding: 0 20px 100px;
   text-align: center;
-  background-color: orange;
 }
 
 .header {
@@ -114,7 +113,7 @@ h3 {
   position: fixed;
   top: 0;
   transform: translateX(-110%);
-  transition: 850ms;
+  transition: 750ms;
   z-index: 1;
 }
 
@@ -191,7 +190,6 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: lightcoral;
 }
 
 .book {
@@ -202,7 +200,6 @@ h3 {
   /* padding: 20px 0 10px; */
   /* position: relative; */
   transition: 0.25s;
-  background-color: lightblue;
 }
 
 .book-cover {
@@ -354,6 +351,7 @@ h3 {
   height: 40px;
   padding: 10px 10px;
   border: 2px solid #000;
+  color: black;
   font-family: 'Poppins', sans-serif;
   font-size: 15;
   font-weight: 400;
@@ -454,5 +452,35 @@ h3 {
   }
   .controls-header ul li {
     font-size: 1rem;
+  }
+
+  .book {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+  .book img {
+    height: 100%;
+    width: 150px;
+    margin-right: 1rem;
+  }
+
+  .book h2 {
+    font-size: 1.2rem;
+  }
+
+  .right-wrapper {
+    margin-bottom: 0.5rem;
+  }
+
+  .left-wrapper {
+    flex-direction: column;
+  }
+  .left-wrapper p {
+    font-size: 0.9rem;
+  }
+
+  .book-info-section {
+    flex-direction: row;
+    margin-bottom: 0.5rem;
   }
 }

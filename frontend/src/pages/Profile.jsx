@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
-function Profile() {
+function Profile({ windowSize }) {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ function Profile() {
       </section>
 
       <section className="content">
-        <Outlet />
+        <Outlet context={{ windowSize }} />
       </section>
     </>
   );

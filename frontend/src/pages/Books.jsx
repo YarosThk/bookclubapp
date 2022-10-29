@@ -6,7 +6,7 @@ import Loader from '../components/Loader';
 import BooksComponent from '../components/BooksComponents/BooksComponent';
 import PageComponent from '../components/PageComponent';
 
-function Books() {
+function Books({ windowSize }) {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const { isLoading, isError, pagination } = useSelector((state) => state.book);
@@ -42,7 +42,7 @@ function Books() {
         setCurrentPage={setCurrentPage}
       />
       <div className="books">
-        <BooksComponent controlsToggle={false} />
+        <BooksComponent controlsToggle={false} windowSize={windowSize} />
       </div>
       <PageComponent
         paginationObject={pagination}
