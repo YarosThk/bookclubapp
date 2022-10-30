@@ -114,7 +114,7 @@ h3 {
   top: 0;
   transform: translateX(-110%);
   transition: 750ms;
-  z-index: 1;
+  z-index: 2;
 }
 
 .nav-menu ul {
@@ -146,6 +146,107 @@ h3 {
 }
 
 /* -------------------------- END SIDE NAVBAR --------------------------  */
+
+/* -------------------------- HOMEPAGE  --------------------------  */
+.hero {
+  display: flex;
+  flex-direction: column;
+}
+.value-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.value-message h1 {
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.value-message p {
+  font-size: 1.5rem;
+  font-weight: 200;
+  margin-bottom: 30px;
+}
+
+.value-message a {
+  margin-top: 10px;
+  text-decoration: underline;
+}
+
+.value-message a:hover {
+  color: #777;
+}
+
+.new-releases {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 350px;
+  height: 450px;
+}
+
+.controls-group {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: absolute;
+  z-index: 1;
+}
+
+.controls-group :nth-child(1) {
+  grid-column-start: 1;
+  justify-self: start;
+}
+.controls-group :nth-child(2) {
+  grid-column-start: 2;
+  justify-self: end;
+}
+
+.carousel-control {
+  border: none;
+  outline: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  cursor: pointer;
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.carousel-img {
+  width: 325px;
+  height: 100%;
+  z-index: 0;
+}
+
+.item-description {
+  width: 100%;
+  text-align: start;
+  margin-left: 20px;
+}
+
+.item-description h2 {
+  font-weight: 500;
+}
+
+/* -------------------------- END HOMEPAGE  --------------------------  */
 .heading {
   width: 100%;
   font-size: 1.8rem;
@@ -351,6 +452,7 @@ h3 {
   height: 40px;
   padding: 10px 10px;
   border: 2px solid #000;
+  border-radius: 3px;
   color: black;
   font-family: 'Poppins', sans-serif;
   font-size: 15;
@@ -413,7 +515,8 @@ h3 {
 .loadingSpinnerContainer {
   width: 100%;
   height: 200px;
-  z-index: 5000;
+  /* z-index: 5000; */
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -482,5 +585,13 @@ h3 {
   .book-info-section {
     flex-direction: row;
     margin-bottom: 0.5rem;
+  }
+  .carousel {
+    flex-direction: column;
+  }
+
+  .item-description {
+    margin-top: 30px;
+    margin-left: auto;
   }
 }
