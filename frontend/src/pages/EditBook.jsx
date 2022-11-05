@@ -1,4 +1,4 @@
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -7,7 +7,7 @@ import BookForm from '../components/BooksComponents/BookForm';
 import Loader from '../components/Loader';
 
 function EditBook() {
-  const { books, isError, isSuccess, isLoading, message } = useSelector((state) => state.book);
+  const { books, isError, isLoading } = useSelector((state) => state.book);
   const [updatedBookData, setUpdatedBookData] = useState({
     title: '',
     author: '',
@@ -34,10 +34,6 @@ function EditBook() {
   if (isLoading) {
     return <Loader />;
   }
-
-  //   if (isSuccess) {
-  //     toast.success('Book uploaded');
-  //   }
 
   return (
     <section className="content">

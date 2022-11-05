@@ -2,12 +2,12 @@ const comingSoon = [
   {
     imgSrc: '/comingSoon/originOfSpecies.webp',
     itemDescription:
-      'On the Origin of Species by Charlse Darwin, to satisfy your scientific curiosity',
+      'On the Origin of Species by Charlse Darwin, to satisfy your scientific curiosity.',
   },
   {
     imgSrc: '/comingSoon/guliversTravels.jpeg',
     itemDescription:
-      "Gulliver's Travels by Jonathan Swift, a great classic recounting the four remarkable journeys of ship's surgeon Lemuel Gulliver",
+      "Gulliver's Travels by Jonathan Swift, a great classic recounting the four remarkable journeys of ship's surgeon Lemuel Gulliver.",
   },
   {
     imgSrc: '/comingSoon/theRepublic.jpeg',
@@ -17,7 +17,7 @@ const comingSoon = [
   {
     imgSrc: '/comingSoon/theGreatGatsby.jpeg',
     itemDescription:
-      'The Great Gatsby by F. Scott Fitzgerald, The novel chronicles an era that Fitzgerald himself dubbed the "Jazz Age"',
+      'The Great Gatsby by F. Scott Fitzgerald, The novel chronicles an era that Fitzgerald himself dubbed the "Jazz Age".',
   },
 ];
 

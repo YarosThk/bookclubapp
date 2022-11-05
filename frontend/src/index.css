@@ -39,7 +39,7 @@ h3 {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
-  padding: 0 20px 100px;
+  padding: 0 20px 20px;
   text-align: center;
 }
 
@@ -541,6 +541,32 @@ h3 {
   }
 }
 
+/* -------------------------- FOOTER  --------------------------  */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 15rem;
+  width: 100%;
+  background-color: lightgreen;
+}
+
+.footer-message {
+  font-weight: 500;
+}
+
+.media-icons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 2rem;
+  width: 30%;
+}
+
+/* -------------------------- END FOOTER  --------------------------  */
+
 @media (max-width: 600px) {
   .form {
     width: 100%;
@@ -593,5 +619,10 @@ h3 {
   .item-description {
     margin-top: 30px;
     margin-left: auto;
+  }
+
+  .media-icons {
+    font-size: 2rem;
+    width: 50%;
   }
 }

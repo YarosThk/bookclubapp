@@ -26,7 +26,7 @@ const updateBookRequest = async (bookId, bookData, token) => {
       'Content-Type': 'multipart/form-data',
     },
   });
-  console.log(request);
+
   return request.data;
 };
 const deleteBookRequest = async (bookId, token) => {
