@@ -1,17 +1,17 @@
-import { useState } from 'react';
 import { FaSignInAlt, FaSignOutAlt, FaUser, FaBook, FaHome, FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { logoutUser, reset } from '../features/auth/authSlice';
+import useComponentVisible from './useComponentVisible';
 
 function SideNavbar() {
   const { user } = useSelector((state) => state.auth);
-  const [sidebar, setSidebar] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
 
-  const toggleSidebar = () => setSidebar(!sidebar);
+  const toggleSidebar = () => setIsComponentVisible(!isComponentVisible);
 
   const onLogout = () => {
     toggleSidebar();
@@ -29,11 +29,11 @@ function SideNavbar() {
         <Link to="#">
           <FaBars
             onClick={toggleSidebar}
-            className={sidebar ? 'menu-bars inactive' : 'menu-bars'}
+            className={isComponentVisible ? 'menu-bars inactive' : 'menu-bars'}
           />
         </Link>
       </div>
-      <div className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+      <div ref={ref} className={isComponentVisible ? 'nav-menu active' : 'nav-menu'}>
         <div className="navbar-toggle">
           <Link to="#" className="menu-bars">
             <AiOutlineClose onClick={toggleSidebar} />

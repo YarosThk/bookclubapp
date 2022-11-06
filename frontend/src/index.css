@@ -47,8 +47,9 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 0;
+  padding: 20px 5px;
   border-bottom: 1px solid #e6e6e6;
+  background-color: #f8f8f8;
   margin-bottom: 60px;
 }
 
@@ -77,7 +78,7 @@ h3 {
 
 /* -------------------------- SIDE NAVBAR --------------------------  */
 .navbar {
-  background-color: #fff;
+  /* background-color: #fff; */
   height: 80px;
   display: flex;
   flex-direction: row;
@@ -104,7 +105,8 @@ h3 {
 
 .nav-menu {
   /* background-color: #fff; */
-  background-color: #060b26;
+  background-color: #f8f8f8;
+  /* background-color: #060b26; */
   width: 250px;
   height: 100%;
   display: flex;
@@ -129,7 +131,7 @@ h3 {
 }
 
 .nav-menu a {
-  color: white;
+  color: black;
 }
 
 .nav-menu.active {
@@ -181,6 +183,7 @@ h3 {
 
 .new-releases {
   width: 100%;
+  margin-bottom: 50px;
   display: flex;
   justify-content: center;
 }
@@ -550,7 +553,7 @@ h3 {
   align-items: center;
   height: 15rem;
   width: 100%;
-  background-color: lightgreen;
+  background-color: #f8f8f8;
 }
 
 .footer-message {
