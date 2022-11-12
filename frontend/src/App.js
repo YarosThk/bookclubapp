@@ -36,7 +36,7 @@ function App() {
             <Route path="/" element={<Homepage />} />
             <Route path="/books" element={<Books windowSize={windowSize} />} />
             <Route path="/books/:bookId" element={<BookPage windowSize={windowSize} />} />
-            <Route path="/books/:bookId/edit" element={<EditBook />} />
+            <Route path="/books/:bookId/edit" element={<EditBook windowSize={windowSize} />} />
             <Route path="/profile/:userId" element={<Profile windowSize={windowSize} />}>
               <Route index element={<UserBooks />} />
               <Route path="new-book" element={<NewBook />} />

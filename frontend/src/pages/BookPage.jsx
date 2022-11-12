@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, reset } from '../features/books/bookSlice';
 import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
-import BookItem from '../components/BooksComponents/BookItem';
 import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
 import CommentsComponent from '../components/CommentsComponent';
-import BookItemMobile from '../components/BooksComponents/BookItemMobile';
+import AdaptiveBookItem from '../components/BooksComponents/AdaptiveBookItem';
 
 function BookPage({ windowSize }) {
   const { books, isError, isLoading } = useSelector((state) => state.book);
@@ -43,14 +42,6 @@ function BookPage({ windowSize }) {
     };
   }, [bookId, dispatch, navigate, isError, currentPage]);
 
-  const AdaptiveBookItem = (book) => {
-    if (windowSize > 600) {
-      return <BookItem book={book} controlsToggle={false} />;
-    } else {
-      return <BookItemMobile book={book} controlsToggle={false} />;
-    }
-  };
-
   if (isLoading || isLoadingComments) {
     return <Loader />;
   }
@@ -66,7 +57,7 @@ function BookPage({ windowSize }) {
     <>
       <ToastContainer />
       <div className="books">
-        {books[0] && AdaptiveBookItem(books[0])}
+        {books[0] && <AdaptiveBookItem book={books[0]} windowSize={windowSize} />}
         <CommentForm bookId={bookId} />
         {isErrorComments ? <p>{messageComments}</p> : <CommentsComponent />}
       </div>

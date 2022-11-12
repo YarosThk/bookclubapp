@@ -16,8 +16,8 @@ function UserBooks() {
   useEffect(() => {
     const userBooksPromise = dispatch(getBooksByUser({ userId: user._id, page: currentPage }));
     return () => {
-      userBooksPromise.abort();
       dispatch(reset());
+      userBooksPromise.abort();
     };
   }, [user, currentPage, dispatch]);
 

@@ -181,9 +181,18 @@ const updateBook = async (req, res, next) => {
       throw new Error('Book with this id does not exist');
     }
 
-    // Remove previous cover
-    if (book.cover) {
-      await removeCover(book.cover);
+    let newCover = null;
+    // In Edit the cover is Optional because there should be a previous cover
+    // so we check first if req.file exists to avoid undefined property error
+    // when reading req.file.filename
+    // If there is another cover though, we remove previous cover first
+    if (req.file) {
+      if (book.cover) {
+        await removeCover(book.cover);
+      }
+      newCover = req.file.filename;
+    } else {
+      newCover = book.cover;
     }
 
     const update = {
@@ -191,7 +200,8 @@ const updateBook = async (req, res, next) => {
       title: req.body.title,
       author: req.body.author,
       description: req.body.description,
-      cover: req.file.filename,
+      // cover: req.file.filename,
+      cover: newCover,
     }; // When another admin updates, we want to update the relational user id of the admin
 
     const updatedBook = await Book.findByIdAndUpdate(req.params.bookId, update, { new: true });

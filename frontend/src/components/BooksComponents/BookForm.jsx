@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) {
   const { title, author, description, bookCover } = bookData;
   const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const [validationError, setValidationError] = useState('');
+  const location = useLocation().pathname.split('/').at(-1);
+  const isCoverRequiered = location === 'edit' ? false : true;
 
   const validateSelectedFile = (cover) => {
     const MAX_FILE_SIZE = 5120; // 5MB
@@ -23,13 +26,18 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
   };
 
   const onSubmit = (e) => {
-    if (isValid) {
-      e.preventDefault();
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('author', author);
-      formData.append('description', description);
-      formData.append('bookCover', bookCover);
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('author', author);
+    formData.append('description', description);
+    formData.append('bookCover', bookCover);
+
+    if (isCoverRequiered) {
+      if (isValid) {
+        dispatch(submitFunction({ bookId, bookData: formData }));
+      }
+    } else {
       dispatch(submitFunction({ bookId, bookData: formData }));
     }
   };
@@ -97,7 +105,7 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
               className="form-control"
               id="bookCover"
               name="bookCover"
-              required={true}
+              required={isCoverRequiered}
               placeholder="Book cover"
               onChange={onChangeCover}
             />
@@ -105,9 +113,9 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
             <p className="info-message">{validationError}</p>
           </div>
           <div className="form-group">
-            <button type="submit" className="btn" disabled={isValid ? false : true}>
-              {' '}
-              Upload{' '}
+            {/* <button type="submit" className="btn" disabled={isValid ? false : true}> */}
+            <button type="submit" className="btn">
+              Upload
             </button>
           </div>
         </form>

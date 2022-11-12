@@ -5,8 +5,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, updateBook, reset } from '../features/books/bookSlice';
 import BookForm from '../components/BooksComponents/BookForm';
 import Loader from '../components/Loader';
+import AdaptiveBookItem from '../components/BooksComponents/AdaptiveBookItem';
 
-function EditBook() {
+function EditBook({ windowSize }) {
   const { books, isError, isLoading } = useSelector((state) => state.book);
   const [updatedBookData, setUpdatedBookData] = useState({
     title: '',
@@ -39,23 +40,7 @@ function EditBook() {
     <section className="content">
       <ToastContainer />
       <div className="books">
-        {books[0] && (
-          <section key={`${books[0]._id}`} className="book">
-            <img
-              src={books[0].cover ? `/uploads/${books[0].cover}` : '/uploads/Bookplaceholder.png'}
-              alt={'bookPlaceholder'}
-            />
-            <div className="book-info-section">
-              <div className="content-heading">
-                <div className="leaft-wrapper">
-                  <h2 className="bookTitle"> {books[0].title} </h2>
-                  <p className="bookTitle"> {books[0].author} </p>
-                </div>
-              </div>
-              <p> {books[0].description} </p>
-            </div>
-          </section>
-        )}
+        {books[0] && <AdaptiveBookItem book={books[0]} windowSize={windowSize} />}
       </div>
       <BookForm
         formTitle={'Edit Book'}
