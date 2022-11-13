@@ -17,10 +17,10 @@ function BookItem({ book, controlsToggle, navigateToEditPage, handleDelete, summ
           </div>
           {controlsToggle ? (
             <div className="right-wrapper">
-              <button className="comment-btn" onClick={() => navigateToEditPage(book._id)}>
+              <button className="btn comment-btn" onClick={() => navigateToEditPage(book._id)}>
                 Edit
               </button>
-              <button className="comment-btn" onClick={() => handleDelete(book._id)}>
+              <button className="btn comment-btn" onClick={() => handleDelete(book._id)}>
                 Delete
               </button>
             </div>

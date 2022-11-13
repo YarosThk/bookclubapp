@@ -76,7 +76,7 @@ function Login() {
             />
           </div>
           <div className="form-group">
-            <button type="submit" className="btn">
+            <button type="submit" className="btn btn-action">
               Login
             </button>
           </div>

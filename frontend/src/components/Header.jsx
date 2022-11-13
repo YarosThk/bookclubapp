@@ -55,7 +55,7 @@ function Header() {
               </NavLink>
             </li>
             <li>
-              <button className="btn btn-logout" onClick={onLogout}>
+              <button className="btn btn-action" onClick={onLogout}>
                 <FaSignOutAlt />
                 Logout
               </button>

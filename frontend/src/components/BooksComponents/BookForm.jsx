@@ -114,7 +114,7 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
           </div>
           <div className="form-group">
             {/* <button type="submit" className="btn" disabled={isValid ? false : true}> */}
-            <button type="submit" className="btn">
+            <button type="submit" className="btn btn-action">
               Upload
             </button>
           </div>

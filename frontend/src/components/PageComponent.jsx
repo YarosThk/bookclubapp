@@ -23,7 +23,13 @@ function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
   if (totalPages <= 5) {
     //totalPages < 5
     muiddlePagination = pages.map((page) => (
-      <button key={page} id={page} onClick={handlePageClick} disabled={page === currentPage}>
+      <button
+        className="btn pagination-btn"
+        key={page}
+        id={page}
+        onClick={handlePageClick}
+        disabled={page === currentPage}
+      >
         {page}
       </button>
     ));
@@ -34,10 +40,13 @@ function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
         const pageSlice = pages.slice(currentPage - 1, currentPage + 5 - 1);
         muiddlePagination = (
           <>
-            <button onClick={handlePageClick}>1</button>
-            <button>...</button>
+            <button className="btn pagination-btn" onClick={handlePageClick}>
+              1
+            </button>
+            <button className="btn pagination-btn">...</button>
             {pageSlice.map((page) => (
               <button
+                className="btn pagination-btn"
                 key={page}
                 id={page}
                 onClick={handlePageClick}
@@ -46,8 +55,12 @@ function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
                 {page}
               </button>
             ))}
-            <button>...</button>
-            <button onClick={handlePageClick} disabled={currentPage === totalPages}>
+            <button className="btn pagination-btn">...</button>
+            <button
+              className="btn pagination-btn"
+              onClick={handlePageClick}
+              disabled={currentPage === totalPages}
+            >
               {totalPages}
             </button>
           </>
@@ -56,10 +69,13 @@ function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
         const pageSlice = pages.slice(totalPages - 5, totalPages); //Last five pages must be fixed
         muiddlePagination = (
           <>
-            <button onClick={handlePageClick}>1</button>
-            <button>...</button>
+            <button className="btn pagination-btn" onClick={handlePageClick}>
+              1
+            </button>
+            <button className="btn pagination-btn">...</button>
             {pageSlice.map((page) => (
               <button
+                className="btn pagination-btn"
                 key={page}
                 id={page}
                 onClick={handlePageClick}
@@ -76,12 +92,22 @@ function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
       muiddlePagination = (
         <>
           {pageSlice.map((page) => (
-            <button key={page} id={page} onClick={handlePageClick} disabled={page === currentPage}>
+            <button
+              className="btn pagination-btn"
+              key={page}
+              id={page}
+              onClick={handlePageClick}
+              disabled={page === currentPage}
+            >
               {page}
             </button>
           ))}
-          <button>...</button>
-          <button onClick={handlePageClick} disabled={totalPages === currentPage}>
+          <button className="btn pagination-btn">...</button>
+          <button
+            className="btn pagination-btn"
+            onClick={handlePageClick}
+            disabled={totalPages === currentPage}
+          >
             {totalPages}
           </button>
         </>
@@ -93,11 +119,19 @@ function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
     <>
       {totalPages > 1 && (
         <div className="pagination">
-          <button onClick={previousPage} disabled={currentPage === 1}>
+          <button
+            className="btn pagination-btn"
+            onClick={previousPage}
+            disabled={currentPage === 1}
+          >
             &#171;
           </button>
           {muiddlePagination}
-          <button onClick={nextPage} disabled={currentPage === totalPages}>
+          <button
+            className="btn pagination-btn"
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+          >
             &#187;
           </button>
         </div>

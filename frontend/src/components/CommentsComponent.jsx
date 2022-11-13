@@ -1,17 +1,21 @@
 import { deleteComment } from '../features/comments/commentsSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function CommentsComponent() {
   const { user } = useSelector((state) => state.auth);
   const { comments } = useSelector((state) => state.comment);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleDelete = (commentId) => {
     dispatch(deleteComment(commentId));
   };
 
   const handleEdit = (commentId) => {
-    console.log('Should edit the comment');
+    console.log('Should edit the comment', commentId);
+    console.log(`/comments/${commentId}/edit`);
+    navigate(`/comments/${commentId}/edit`);
   };
 
   return (
@@ -26,10 +30,10 @@ function CommentsComponent() {
               <p>{comment.createdAt.substring(0, 10)}</p>
               {comment.userId === user._id ? (
                 <>
-                  <button className="comment-btn" onClick={() => handleEdit(comment._id)}>
+                  <button className="btn comment-btn" onClick={() => handleEdit(comment._id)}>
                     Edit
                   </button>
-                  <button className="comment-btn" onClick={() => handleDelete(comment._id)}>
+                  <button className="btn comment-btn" onClick={() => handleDelete(comment._id)}>
                     Delete
                   </button>
                 </>

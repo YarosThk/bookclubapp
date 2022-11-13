@@ -84,6 +84,25 @@ const getUserComments = async (req, res, next) => {
   }
 };
 
+// @desc Get one user comment
+// @route GET api/comments/:commentId
+// @access Private/admin
+const getComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+
+    if (!comment) {
+      res.status(400);
+      throw new Error('Comment with such Id not found');
+    }
+
+    res.status(200);
+    res.json(comment);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc Create a comment
 // @route POST api/comments/
 // @access Private
@@ -142,7 +161,7 @@ const updateComment = async (req, res, next) => {
     });
 
     res.status(200);
-    res.json({ message: 'Comment updated', payload: updatedComment });
+    res.json({ message: 'Comment updated', updatedComment });
   } catch (error) {
     next(error);
   }
@@ -176,6 +195,7 @@ const deleteComment = async (req, res, next) => {
 module.exports = {
   getBookComments,
   getUserComments,
+  getComment,
   createComment,
   updateComment,
   deleteComment,

@@ -178,7 +178,7 @@ h3 {
 }
 
 .value-message a:hover {
-  color: #777;
+  color: #f4b93b;
 }
 
 .new-releases {
@@ -350,9 +350,11 @@ h3 {
 .comment {
   display: flex;
   flex-direction: column;
+  border-bottom: 1px solid #e6e6e6;
   margin: 10px 0;
   padding: 5px;
   text-align: left;
+  background-color: #f8f8f8;
 }
 
 .content-heading {
@@ -367,7 +369,6 @@ h3 {
   border: none;
   padding: 5px;
   margin-right: 0.5rem;
-  color: #000;
   font-size: 12px;
   cursor: pointer;
 }
@@ -397,15 +398,15 @@ h3 {
   margin-bottom: 2rem;
 }
 
-.pagination button {
-  border: 1px solid #000;
+.pagination-btn {
+  /* border: 1px solid #000; */
   background: transparent;
   cursor: pointer;
   padding: 5px 15px;
   margin-right: 5px;
 }
 
-.pagination button:disabled {
+.pagination-btn:disabled {
   background-color: #333;
   color: #fff;
 }
@@ -451,12 +452,8 @@ h3 {
 }
 
 .btn {
-  width: 100px;
-  height: 40px;
-  padding: 10px 10px;
-  border: 2px solid #000;
+  border: 1px solid #000;
   border-radius: 3px;
-  color: black;
   font-family: 'Poppins', sans-serif;
   font-size: 15;
   font-weight: 400;
@@ -467,12 +464,15 @@ h3 {
   display: inline-block;
 }
 
-.btn-logout {
+.btn-action {
+  width: 100px;
+  height: 40px;
+  padding: 10px 10px;
   background: #000;
   color: #fff;
   z-index: 1;
 }
-.btn-logout:after {
+.btn-action:after {
   position: absolute;
   content: '';
   width: 0;
@@ -483,15 +483,15 @@ h3 {
   background: #ffffff;
   transition: all 0.3s ease;
 }
-.btn-logout:hover {
+.btn-action:hover {
   color: #000;
 }
-.btn-logout:hover:after {
+.btn-action:hover:after {
   left: 0;
   width: 100%;
 }
 
-.btn-logout:active {
+.btn-action:active {
   top: 2px;
 }
 

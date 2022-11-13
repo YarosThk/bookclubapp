@@ -3,7 +3,11 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getSpecificBook, reset } from '../features/books/bookSlice';
-import { getAllBookComments, resetComments } from '../features/comments/commentsSlice';
+import {
+  createComment,
+  getAllBookComments,
+  resetComments,
+} from '../features/comments/commentsSlice';
 import CommentForm from '../components/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
@@ -23,6 +27,10 @@ function BookPage({ windowSize }) {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const submitAction = (text, bookId) => {
+    dispatch(createComment({ text, bookId }));
+  };
 
   useEffect(() => {
     if (isError) {
@@ -58,7 +66,7 @@ function BookPage({ windowSize }) {
       <ToastContainer />
       <div className="books">
         {books[0] && <AdaptiveBookItem book={books[0]} windowSize={windowSize} />}
-        <CommentForm bookId={bookId} />
+        <CommentForm objectId={bookId} submitAction={submitAction} />
         {isErrorComments ? <p>{messageComments}</p> : <CommentsComponent />}
       </div>
       <PageComponent

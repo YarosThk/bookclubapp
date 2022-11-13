@@ -107,12 +107,6 @@ const bookSlice = createSlice({
   reducers: {
     reset: (state) => {
       return initialState;
-      // state.books = [];
-      // state.pagination = {};
-      // state.isLoading = false;
-      // state.isError = false;
-      // state.isSuccess = false;
-      // state.message = '';
     },
   },
   extraReducers: (builder) => {

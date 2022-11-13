@@ -15,7 +15,7 @@ function ValueProposition() {
       <p>Discover, read and share impressions with your peers, everything in a single place.</p>
       {!user && (
         <>
-          <button className="btn btn-logout" onClick={registerButton}>
+          <button className="btn btn-action" onClick={registerButton}>
             <FaUser />
             Register
           </button>

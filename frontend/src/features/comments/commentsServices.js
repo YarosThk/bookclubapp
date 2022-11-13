@@ -23,6 +23,18 @@ const getCommentsByUserRequest = async (userId, page, token) => {
   return response.data;
 };
 
+const getCommentByIdRequest = async (commentId, token) => {
+  const response = await axios({
+    method: 'GET',
+    url: `/api/comments/${commentId}`,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response.data;
+};
+
 const createCommentRequest = async (comment, bookId, token) => {
   const response = await axios({
     method: 'POST',
@@ -34,6 +46,21 @@ const createCommentRequest = async (comment, bookId, token) => {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response.data;
+};
+
+const updateCommentRequest = async (comment, commentId, token) => {
+  const response = await axios({
+    method: 'PUT',
+    url: `/api/comments/${commentId}`,
+    data: {
+      commentBody: comment,
+    },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
   return response.data;
 };
 
@@ -52,7 +79,9 @@ const deleteCommentRequest = async (commentId, token) => {
 const commentsServices = {
   getCommentsByBookRequest,
   getCommentsByUserRequest,
+  getCommentByIdRequest,
   createCommentRequest,
+  updateCommentRequest,
   deleteCommentRequest,
 };
 

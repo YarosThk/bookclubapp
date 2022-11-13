@@ -110,7 +110,7 @@ function Register() {
             />
           </div>
           <div className="form-group">
-            <button type="submit" className="btn">
+            <button type="submit" className="btn btn-action">
               {' '}
               Submit{' '}
             </button>

@@ -1,18 +1,16 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createComment, resetComments } from '../features/comments/commentsSlice';
 
-function CommentForm({ bookId }) {
+function CommentForm({ submitAction, objectId }) {
   const { user } = useSelector((state) => state.auth);
   const [text, setText] = useState('');
-  const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
     //to prevent submitting leading empty spaces
     let trimmedText = text.trim();
     if (trimmedText !== '') {
-      dispatch(createComment({ text, bookId }));
+      submitAction(text, objectId);
       setText('');
     }
   };
@@ -32,6 +30,7 @@ function CommentForm({ bookId }) {
             id="text"
             value={user ? text : 'Login to post a comment.'}
             onChange={handleChange}
+            maxLength="500"
             required={true}
           >
             {' '}

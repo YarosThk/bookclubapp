@@ -27,15 +27,6 @@ export const createComment = createAsyncThunk(
   }
 );
 
-// export const udpateComment = createAsyncThunk(
-//   'comment/udpateComment',
-//   async (bookData, thunkAPI) => {}
-// );
-// export const deleteComment = createAsyncThunk(
-//   'comment/deleteComment',
-//   async (bookData, thunkAPI) => {}
-// );
-
 export const getAllBookComments = createAsyncThunk(
   'comment/getAllBookComments',
   async (reqParams, thunkAPI) => {
@@ -60,6 +51,41 @@ export const getAllUserComments = createAsyncThunk(
       const { userId, page } = requestData;
       const token = thunkAPI.getState().auth.user.token;
       return await commentsServices.getCommentsByUserRequest(userId, page, token);
+    } catch (error) {
+      // thunk api with error message
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString(); //if any of those exists we want to put that in message variable
+      return thunkAPI.rejectWithValue(message); //will return the payload with error message
+    }
+  }
+);
+
+export const getCommentById = createAsyncThunk(
+  'comment/getSpecificComment',
+  async (commentId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await commentsServices.getCommentByIdRequest(commentId, token);
+    } catch (error) {
+      // thunk api with error message
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString(); //if any of those exists we want to put that in message variable
+      return thunkAPI.rejectWithValue(message); //will return the payload with error message
+    }
+  }
+);
+
+export const updateComment = createAsyncThunk(
+  'comment/updateComment',
+  async (commentData, thunkAPI) => {
+    try {
+      const { text, commentId } = commentData;
+      const token = thunkAPI.getState().auth.user.token;
+      return await commentsServices.updateCommentRequest(text, commentId, token);
     } catch (error) {
       // thunk api with error message
       const message =
@@ -106,6 +132,19 @@ const commentSlice = createSlice({
       state.comments.unshift(action.payload.payload);
     });
     builder.addCase(createComment.rejected, (state, action) => {
+      state.isLoadingComments = false;
+      state.isErrorComments = true;
+      state.messageComments = action.payload;
+    });
+    builder.addCase(updateComment.pending, (state) => {
+      state.isLoadingComments = true;
+    });
+    builder.addCase(updateComment.fulfilled, (state, action) => {
+      state.isLoadingComments = false;
+      state.isSuccessComments = true;
+      state.comments = [action.payload.updatedComment];
+    });
+    builder.addCase(updateComment.rejected, (state, action) => {
       state.isLoadingComments = false;
       state.isErrorComments = true;
       state.messageComments = action.payload;
@@ -161,6 +200,19 @@ const commentSlice = createSlice({
         state.isErrorComments = true;
         state.messageComments = action.payload;
       }
+    });
+    builder.addCase(getCommentById.pending, (state) => {
+      state.isLoadingComments = true;
+    });
+    builder.addCase(getCommentById.fulfilled, (state, action) => {
+      state.isLoadingComments = false;
+      state.isSuccessComments = true;
+      state.comments.push(action.payload);
+    });
+    builder.addCase(getCommentById.rejected, (state, action) => {
+      state.isLoadingComments = false;
+      state.isErrorComments = true;
+      state.messageComments = action.payload;
     });
   },
 });
