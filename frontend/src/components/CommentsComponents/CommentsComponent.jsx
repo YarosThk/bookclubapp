@@ -1,6 +1,6 @@
-import { deleteComment } from '../features/comments/commentsSlice';
+import { deleteComment } from '../../features/comments/commentsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function CommentsComponent() {
   const { user } = useSelector((state) => state.auth);
@@ -13,8 +13,6 @@ function CommentsComponent() {
   };
 
   const handleEdit = (commentId) => {
-    console.log('Should edit the comment', commentId);
-    console.log(`/comments/${commentId}/edit`);
     navigate(`/comments/${commentId}/edit`);
   };
 
@@ -24,11 +22,12 @@ function CommentsComponent() {
         <div key={comment._id} className="comment">
           <div className="content-heading">
             <div className="left-wrapper">
-              <h3>{comment.userName}</h3>
+              <p>{comment.userName}</p>
+              {comment.edited ? <p> &nbsp;-&nbsp;Edited</p> : ''}
             </div>
             <div className="right-wrapper">
               <p>{comment.createdAt.substring(0, 10)}</p>
-              {comment.userId === user._id ? (
+              {user && comment.userId === user._id ? (
                 <>
                   <button className="btn comment-btn" onClick={() => handleEdit(comment._id)}>
                     Edit
@@ -40,7 +39,10 @@ function CommentsComponent() {
               ) : null}
             </div>
           </div>
-          <p className="comment-body">{comment.commentBody}</p>
+          {/* <p className="comment-body">{comment.commentBody}</p> */}
+          <Link to={`/books/${comment.bookId}`} className="comment-body">
+            {comment.commentBody}
+          </Link>
         </div>
       ))}
     </section>

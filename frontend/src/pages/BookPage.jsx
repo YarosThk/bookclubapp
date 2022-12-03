@@ -8,14 +8,15 @@ import {
   getAllBookComments,
   resetComments,
 } from '../features/comments/commentsSlice';
-import CommentForm from '../components/CommentForm';
+import PageNotFound from './PageNotFound';
+import CommentForm from '../components/CommentsComponents/CommentForm';
 import Loader from '../components/Loader';
 import PageComponent from '../components/PageComponent';
-import CommentsComponent from '../components/CommentsComponent';
+import CommentsComponent from '../components/CommentsComponents/CommentsComponent';
 import AdaptiveBookItem from '../components/BooksComponents/AdaptiveBookItem';
 
 function BookPage({ windowSize }) {
-  const { books, isError, isLoading } = useSelector((state) => state.book);
+  const { books, isError, isLoading, message } = useSelector((state) => state.book);
   const {
     paginationComments,
     isErrorComments,
@@ -33,10 +34,6 @@ function BookPage({ windowSize }) {
   };
 
   useEffect(() => {
-    if (isError) {
-      //example: book with such id not found
-      navigate('/not-found');
-    }
     const bookPromise = dispatch(getSpecificBook(bookId));
     const commentPromise = dispatch(
       getAllBookComments({ bookId: bookId, currentPage }) //need to replace the hard coded bookId
@@ -48,19 +45,25 @@ function BookPage({ windowSize }) {
       bookPromise.abort();
       commentPromise.abort();
     };
-  }, [bookId, dispatch, navigate, isError, currentPage]);
+  }, [bookId, dispatch, navigate, currentPage]);
+
+  if (isError) {
+    return <PageNotFound message={message} />;
+  }
 
   if (isLoading || isLoadingComments) {
     return <Loader />;
   }
 
   if (isSuccessComments & (messageComments !== '')) {
+    //Sucess message when publishing comments
     toast.success(messageComments);
   }
 
   if (isErrorComments) {
     toast.error('Error loading comments');
   }
+
   return (
     <>
       <ToastContainer />

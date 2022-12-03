@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const Book = require('../models/bookModel');
+const Comment = require('../models/commentModel');
 
 const removeCover = async (fileName) => {
   try {
@@ -229,6 +230,8 @@ const deleteBook = async (req, res, next) => {
     }
 
     const book = await Book.findById(req.params.bookId);
+    const comments = await Comment.find({ bookId: req.params.bookId });
+
     if (!book) {
       res.status(400);
       throw new Error('Book with this id does not exist');
@@ -238,7 +241,10 @@ const deleteBook = async (req, res, next) => {
     if (book.cover) {
       await removeCover(book.cover);
     }
+
     book.remove();
+    // Delete all related comments
+    await Comment.deleteMany({ bookId: req.params.bookId });
     res.status(200);
     res.json({ message: 'Book deleted', payload: book });
   } catch (error) {

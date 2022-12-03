@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getCommentById, updateComment, resetComments } from '../features/comments/commentsSlice';
-import CommentForm from '../components/CommentForm';
+import CommentForm from '../components/CommentsComponents/CommentForm';
 import Loader from '../components/Loader';
 
 function EditComment() {

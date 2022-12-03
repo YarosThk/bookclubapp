@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllUserComments, resetComments } from '../../features/comments/commentsSlice';
 import PageComponent from '../PageComponent';
-import CommentsComponent from '../CommentsComponent';
+import CommentsComponent from '../CommentsComponents/CommentsComponent';
 import Loader from '../Loader';
 
 function UserComments() {

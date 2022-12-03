@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function CommentForm({ submitAction, objectId }) {
   const { user } = useSelector((state) => state.auth);

@@ -37,6 +37,7 @@ const deleteBookRequest = async (bookId, token) => {
       Authorization: `Bearer ${token}`,
     },
   });
+  console.log(request.data);
   return request.data;
 };
 

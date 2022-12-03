@@ -1,7 +1,10 @@
-function PageNotFound() {
+import { Link } from 'react-router-dom';
+function PageNotFound({ message }) {
   return (
     <>
-      <h2>Page not found</h2>
+      <h2>Resource not found</h2>
+      {message && <p>{message}</p>}
+      <Link to="/">Go Home</Link>
     </>
   );
 }
