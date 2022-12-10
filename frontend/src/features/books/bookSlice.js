@@ -141,6 +141,7 @@ const bookSlice = createSlice({
     builder.addCase(deleteBook.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+      state.message = action.payload.message;
       state.books = state.books.filter((book) => book._id !== action.payload.payload._id);
     });
     builder.addCase(deleteBook.rejected, (state, action) => {

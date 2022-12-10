@@ -25,9 +25,7 @@ function Register() {
     if (isSuccess || user) {
       navigate('/');
     }
-    // return () => {
-    //   dispatch(reset());
-    // };
+
     dispatch(reset());
   }, [user, isSuccess, isError, message, navigate, dispatch]);
 

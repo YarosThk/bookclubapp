@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function BookItem({ book, controlsToggle, navigateToEditPage, handleDelete, summarize }) {
+function BookItem({ book, controlsToggle, navigateToEditPage, toggleModal, summarize }) {
   return (
     <section className="book" key={book._id}>
       <img
@@ -20,7 +20,7 @@ function BookItem({ book, controlsToggle, navigateToEditPage, handleDelete, summ
               <button className="btn comment-btn" onClick={() => navigateToEditPage(book._id)}>
                 Edit
               </button>
-              <button className="btn comment-btn" onClick={() => handleDelete(book._id)}>
+              <button className="btn comment-btn" onClick={() => toggleModal(book._id)}>
                 Delete
               </button>
             </div>

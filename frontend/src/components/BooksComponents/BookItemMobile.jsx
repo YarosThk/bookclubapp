@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function BookItemMobile({ book, controlsToggle, navigateToEditPage, handleDelete, summarize }) {
+function BookItemMobile({ book, controlsToggle, navigateToEditPage, toggleModal, summarize }) {
   return (
     <section className="book" key={book._id}>
       <div className="content-heading">
@@ -22,10 +22,10 @@ function BookItemMobile({ book, controlsToggle, navigateToEditPage, handleDelete
       </div>
       {controlsToggle ? (
         <div className="right-wrapper">
-          <button className="comment-btn" onClick={() => navigateToEditPage(book._id)}>
+          <button className="btn comment-btn" onClick={() => navigateToEditPage(book._id)}>
             Edit
           </button>
-          <button className="comment-btn" onClick={() => handleDelete(book._id)}>
+          <button className="btn comment-btn" onClick={() => toggleModal(book._id)}>
             Delete
           </button>
         </div>

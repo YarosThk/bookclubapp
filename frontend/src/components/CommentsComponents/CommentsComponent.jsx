@@ -39,7 +39,6 @@ function CommentsComponent() {
               ) : null}
             </div>
           </div>
-          {/* <p className="comment-body">{comment.commentBody}</p> */}
           <Link to={`/books/${comment.bookId}`} className="comment-body">
             {comment.commentBody}
           </Link>
