@@ -5,9 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getCommentById, updateComment, resetComments } from '../features/comments/commentsSlice';
 import CommentForm from '../components/CommentsComponents/CommentForm';
 import Loader from '../components/Loader';
+import PageNotFound from './PageNotFound';
 
 function EditComment() {
-  const { comments, isErrorComments, isLoadingComments } = useSelector((state) => state.comment);
+  const { comments, isErrorComments, isLoadingComments, messageComments } = useSelector(
+    (state) => state.comment
+  );
   const { commentId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,17 +20,17 @@ function EditComment() {
   };
 
   useEffect(() => {
-    if (isErrorComments) {
-      navigate('/not-found');
-    }
-
     const commentPromise = dispatch(getCommentById(commentId));
 
     return () => {
       dispatch(resetComments());
       commentPromise.abort();
     };
-  }, [commentId, navigate, dispatch, isErrorComments]);
+  }, [commentId, navigate, dispatch]);
+
+  if (isErrorComments) {
+    return <PageNotFound message={messageComments} />;
+  }
 
   if (isLoadingComments) {
     return <Loader />;
@@ -49,7 +52,7 @@ function EditComment() {
           <p className="comment-body">{comment.commentBody}</p>
         </div>
       ))}
-      <CommentForm objectId={comments[0]._id} submitAction={submitAction} />
+      <CommentForm objectId={commentId} submitAction={submitAction} />
     </section>
   );
 }

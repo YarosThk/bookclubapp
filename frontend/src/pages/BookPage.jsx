@@ -57,11 +57,8 @@ function BookPage({ windowSize }) {
 
   if (isSuccessComments & (messageComments !== '')) {
     //Sucess message when publishing comments
+    // Need another implementation
     toast.success(messageComments);
-  }
-
-  if (isErrorComments) {
-    toast.error('Error loading comments');
   }
 
   return (

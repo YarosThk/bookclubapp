@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import BookItem from './BookItem';
 import BookItemMobile from './BookItemMobile';
-import DeleteModal from './DeleteModal';
+import DeleteModal from '../DeleteModal';
 
 function BooksComponent({ controlsToggle, windowSize }) {
   const { books } = useSelector((state) => state.book);
@@ -39,7 +39,12 @@ function BooksComponent({ controlsToggle, windowSize }) {
 
   return (
     <div className="books">
-      <DeleteModal visible={showModal} handleDelete={handleDelete} toggleModal={toggleModal} />
+      <DeleteModal
+        visible={showModal}
+        handleDelete={handleDelete}
+        toggleModal={toggleModal}
+        message={'Are you sure you want to delete this book?'}
+      />
       {books.map((book) =>
         windowSize > 600 ? (
           <BookItem

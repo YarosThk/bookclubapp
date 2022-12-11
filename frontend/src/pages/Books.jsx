@@ -14,20 +14,10 @@ function Books({ windowSize }) {
     const promise = dispatch(getAllBooks(currentPage));
 
     return () => {
-      // Also can add AbortSignal in case of costly requests.
-      // clean up using .abort() from asyncThunk. Will emit rejected in the thunk
       dispatch(reset());
       promise.abort();
     };
   }, [currentPage, dispatch]);
-
-  if (isError) {
-    return (
-      <div>
-        <h2>An error occurred</h2>
-      </div>
-    );
-  }
 
   if (isLoading) {
     return <Loader />;
@@ -41,7 +31,11 @@ function Books({ windowSize }) {
         setCurrentPage={setCurrentPage}
       />
       <div className="books">
-        <BooksComponent controlsToggle={false} windowSize={windowSize} />
+        {isError ? (
+          <p>Error while loading books.</p>
+        ) : (
+          <BooksComponent controlsToggle={false} windowSize={windowSize} />
+        )}
       </div>
       <PageComponent
         paginationObject={pagination}

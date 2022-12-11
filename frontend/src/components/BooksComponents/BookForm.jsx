@@ -4,11 +4,11 @@ import { useLocation } from 'react-router-dom';
 
 function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) {
   const { title, author, description, bookCover } = bookData;
-  const dispatch = useDispatch();
   const [isValid, setIsValid] = useState(false);
   const [validationError, setValidationError] = useState('');
   const location = useLocation().pathname.split('/').at(-1);
   const isCoverRequiered = location === 'edit' ? false : true;
+  const dispatch = useDispatch();
 
   const validateSelectedFile = (cover) => {
     const MAX_FILE_SIZE = 5120; // 5MB
@@ -40,6 +40,12 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
     } else {
       dispatch(submitFunction({ bookId, bookData: formData }));
     }
+    setBookData({
+      title: '',
+      author: '',
+      description: '',
+      bookCover: '',
+    });
   };
 
   const onChange = (e) => {
@@ -113,7 +119,6 @@ function BookForm({ formTitle, bookId, bookData, setBookData, submitFunction }) 
             <p className="info-message">{validationError}</p>
           </div>
           <div className="form-group">
-            {/* <button type="submit" className="btn" disabled={isValid ? false : true}> */}
             <button type="submit" className="btn btn-action">
               Upload
             </button>

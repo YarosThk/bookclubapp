@@ -1,15 +1,29 @@
+import { useState } from 'react';
 import { deleteComment } from '../../features/comments/commentsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import DeleteModal from '../DeleteModal';
 
 function CommentsComponent() {
   const { user } = useSelector((state) => state.auth);
   const { comments } = useSelector((state) => state.comment);
+  const [showModal, setShowModal] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleDelete = (commentId) => {
-    dispatch(deleteComment(commentId));
+  const toggleModal = (commentId = '') => {
+    if (showModal) {
+      setShowModal(false);
+      setCommentToDelete('');
+    } else {
+      setShowModal(true);
+      setCommentToDelete(commentId);
+    }
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteComment(commentToDelete));
   };
 
   const handleEdit = (commentId) => {
@@ -18,6 +32,12 @@ function CommentsComponent() {
 
   return (
     <section className="comments">
+      <DeleteModal
+        visible={showModal}
+        handleDelete={handleDelete}
+        toggleModal={toggleModal}
+        message={'Are you sure you want to delete this comment?'}
+      />
       {comments.map((comment) => (
         <div key={comment._id} className="comment">
           <div className="content-heading">
@@ -32,7 +52,7 @@ function CommentsComponent() {
                   <button className="btn comment-btn" onClick={() => handleEdit(comment._id)}>
                     Edit
                   </button>
-                  <button className="btn comment-btn" onClick={() => handleDelete(comment._id)}>
+                  <button className="btn comment-btn" onClick={() => toggleModal(comment._id)}>
                     Delete
                   </button>
                 </>

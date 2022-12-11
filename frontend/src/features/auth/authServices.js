@@ -4,7 +4,6 @@ const BASE_URL = '/api/users/';
 
 const registerRequest = async (userData) => {
   const response = await axios({ method: 'POST', url: BASE_URL, data: userData });
-  // const response = await axios.post(BASE_URL, userData);
   if (response.data) {
     //Response request worked, store user and token in localStorage
     localStorage.setItem('user', JSON.stringify(response.data));

@@ -5,9 +5,6 @@ const getCommentsByBookRequest = async (bookId, page) => {
   const response = await axios({
     method: 'GET',
     url: `/api/books/${bookId}/comments?page=${page}`,
-    // URL below sends request to endpoint below, and gives 404
-    // http://localhost:3000/books/api/books/631505e768c8a2b65aec541b/comments
-    // url: `api/books/${bookId}/comments`,
   });
   return response.data;
 };
