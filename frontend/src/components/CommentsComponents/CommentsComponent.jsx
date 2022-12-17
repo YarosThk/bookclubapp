@@ -47,7 +47,7 @@ function CommentsComponent() {
             </div>
             <div className="right-wrapper">
               <p>{comment.createdAt.substring(0, 10)}</p>
-              {user && comment.userId === user._id ? (
+              {(user && comment.userId === user._id) || (user && user.role === 'admin') ? (
                 <>
                   <button className="btn comment-btn" onClick={() => handleEdit(comment._id)}>
                     Edit

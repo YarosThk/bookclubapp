@@ -1,7 +1,7 @@
 import { ToastContainer } from 'react-toastify';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getCommentById, updateComment, resetComments } from '../features/comments/commentsSlice';
 import CommentForm from '../components/CommentsComponents/CommentForm';
 import Loader from '../components/Loader';
@@ -49,7 +49,10 @@ function EditComment() {
               <p>{comment.createdAt.substring(0, 10)}</p>
             </div>
           </div>
-          <p className="comment-body">{comment.commentBody}</p>
+
+          <Link to={`/books/${comment.bookId}`} className="comment-body">
+            {comment.commentBody}
+          </Link>
         </div>
       ))}
       <CommentForm objectId={commentId} submitAction={submitAction} />

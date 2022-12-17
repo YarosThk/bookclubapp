@@ -6,9 +6,10 @@ import { getSpecificBook, updateBook, reset } from '../features/books/bookSlice'
 import BookForm from '../components/BooksComponents/BookForm';
 import Loader from '../components/Loader';
 import AdaptiveBookItem from '../components/BooksComponents/AdaptiveBookItem';
+import PageNotFound from './PageNotFound';
 
 function EditBook({ windowSize }) {
-  const { books, isError, isLoading } = useSelector((state) => state.book);
+  const { books, isError, isLoading, message } = useSelector((state) => state.book);
   const [updatedBookData, setUpdatedBookData] = useState({
     title: '',
     author: '',
@@ -20,17 +21,17 @@ function EditBook({ windowSize }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isError) {
-      navigate('/not-found');
-    }
-
     const bookPromise = dispatch(getSpecificBook(bookId));
 
     return () => {
       dispatch(reset());
       bookPromise.abort();
     };
-  }, [bookId, dispatch, navigate, isError]);
+  }, [bookId, dispatch, navigate]);
+
+  if (isError) {
+    return <PageNotFound message={message} />;
+  }
 
   if (isLoading) {
     return <Loader />;
