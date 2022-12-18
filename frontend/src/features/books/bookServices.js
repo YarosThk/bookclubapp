@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 const BASE_URL = '/api/books/';
+const BASE_USER_URL = '/api/users/';
 
 const uploadBookRequest = async (bookData, token) => {
   const request = await axios({
@@ -29,15 +30,16 @@ const updateBookRequest = async (bookId, bookData, token) => {
   console.log(request);
   return request.data;
 };
+
 const deleteBookRequest = async (bookId, token) => {
   const request = await axios({
     method: 'DELETE',
-    url: `/api/books/${bookId}`,
+    url: BASE_URL + bookId,
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log(request);
+
   return request.data;
 };
 
@@ -106,7 +108,7 @@ const simulateAsync = async () => {
 const getBooksByUserRequest = async (userId, page, token) => {
   const response = await axios({
     method: 'GET',
-    url: `/api/users/${userId}/books?page=${page}`,
+    url: BASE_USER_URL + userId + `/books?page=${page}`,
     headers: {
       Authorization: `Bearer ${token}`,
     },

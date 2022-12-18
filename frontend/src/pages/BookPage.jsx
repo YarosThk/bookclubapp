@@ -17,13 +17,9 @@ import AdaptiveBookItem from '../components/BooksComponents/AdaptiveBookItem';
 
 function BookPage({ windowSize }) {
   const { books, isError, isLoading, message } = useSelector((state) => state.book);
-  const {
-    paginationComments,
-    isErrorComments,
-    messageComments,
-    isLoadingComments,
-    isSuccessComments,
-  } = useSelector((state) => state.comment);
+  const { paginationComments, isErrorComments, messageComments, isLoadingComments } = useSelector(
+    (state) => state.comment
+  );
   const { bookId } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useDispatch();
@@ -53,12 +49,6 @@ function BookPage({ windowSize }) {
 
   if (isLoading || isLoadingComments) {
     return <Loader />;
-  }
-
-  if (isSuccessComments & (messageComments !== '')) {
-    //Sucess message when publishing comments
-    // Need another implementation
-    toast.success(messageComments);
   }
 
   return (
