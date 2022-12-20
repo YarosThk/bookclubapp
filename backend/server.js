@@ -21,8 +21,10 @@ app.use('/api/comments', require('./routes/commentRoutes'));
 
 // Serve frontend
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.statis(path.join(__dirname, '../frontend/build')));
+  // We put the path to the static files in the build
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
 
+  // We serve the index.html file which is the entry page to out app
   app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html'));
   });
