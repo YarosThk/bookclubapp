@@ -1,8 +1,8 @@
 // Contains all the API request to the backend in order to get book data
 import axios from 'axios';
 
-const BASE_URL = '/api/books/';
-const BASE_USER_URL = '/api/users/';
+const BASE_URL = 'https://bookclub-api.onrender.com/api/books/';
+const BASE_USER_URL = 'https://bookclub-api.onrender.com/api/users/';
 
 const uploadBookRequest = async (bookData, token) => {
   const request = await axios({
