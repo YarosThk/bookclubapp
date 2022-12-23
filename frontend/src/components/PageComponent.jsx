@@ -1,5 +1,5 @@
 function PageComponent({ paginationObject, currentPage, setCurrentPage }) {
-  const { documentsCount, page, pageSize, totalPages } = paginationObject;
+  const { totalPages } = paginationObject;
 
   const handlePageClick = (e) => {
     setCurrentPage(parseInt(e.target.firstChild.textContent));

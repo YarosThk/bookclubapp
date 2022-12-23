@@ -1,4 +1,3 @@
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteBook } from '../../features/books/bookSlice';
 import { useState } from 'react';

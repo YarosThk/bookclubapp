@@ -1,4 +1,3 @@
-import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -53,7 +52,6 @@ function BookPage({ windowSize }) {
 
   return (
     <>
-      <ToastContainer />
       <div className="books">
         {books[0] && <AdaptiveBookItem book={books[0]} windowSize={windowSize} />}
         <CommentForm objectId={bookId} submitAction={submitAction} />
