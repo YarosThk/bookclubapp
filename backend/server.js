@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: 'https://bookclubapp-production.up.railway.app/',
+    origin: 'https://book-club-app.onrender.com',
   })
 );
 
