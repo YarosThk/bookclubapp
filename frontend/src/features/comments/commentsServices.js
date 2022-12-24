@@ -1,9 +1,9 @@
 // Contains all the API request to the backend in order to get comments data
 import axios from 'axios';
 
-const BASE_URL = 'https://bookclub-api.onrender.com/api/comments/';
-const BASE_BOOK_URL = 'https://bookclub-api.onrender.com/api/books/';
-const BASE_USER_URL = 'https://bookclub-api.onrender.com/api/users/';
+const BASE_URL = 'https://bookclubapp-production.up.railway.app/api/comments/';
+const BASE_BOOK_URL = 'https://bookclubapp-production.up.railway.app/api/books/';
+const BASE_USER_URL = 'https://bookclubapp-production.up.railway.app/api/users/';
 
 const createCommentRequest = async (comment, bookId, token) => {
   const response = await axios({

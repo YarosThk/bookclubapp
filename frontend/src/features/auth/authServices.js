@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://bookclub-api.onrender.com/api/users/';
+const BASE_URL = 'https://bookclubapp-production.up.railway.app/api/users/';
 
 const registerRequest = async (userData) => {
   const response = await axios({ method: 'POST', url: BASE_URL, data: userData });
