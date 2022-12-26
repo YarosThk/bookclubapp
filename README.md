@@ -1,6 +1,22 @@
-# Getting Started with Create React App and Redux
+# React Book Club App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Project Description
+
+[BookClubApp](https://book-club-app.onrender.com/) is a social app build with MERN stack which works like a book club where users can exchange their impressions on different books that the administrators upload regularly. App functionality allows registering, sharing comments and books as well as edit all the resources.
+
+# Table of content
+
+# Built with
+
+- MongoDB
+- Express
+- React
+- Node
+- Redux
+
+# Installation
+
+- Copy the repo
 
 ## Available Scripts
 

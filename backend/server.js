@@ -25,20 +25,6 @@ app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 
-// Serve frontend
-// if (process.env.NODE_ENV === 'production') {
-//   // We put the path to the static files in the build
-//   app.use(express.static(path.join(__dirname, '../frontend/build')));
-
-//   // We serve the index.html file which is the entry page to out app
-//   app.get('*', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, '../', 'frontend', 'build', 'index.html'));
-//   });
-// } else {
-//   app.get('/', (req, res) => res.send('Please set to production environment'));
-// }
-
-// app.use(logErrors);
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`LISTENING ON PORT ${port}`));
