@@ -1,7 +1,5 @@
 # React Book Club App
 
-<h1 align="center">React Book Club App</h1>
-
 # Table of content
 
 - Description
