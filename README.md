@@ -1,10 +1,21 @@
 # React Book Club App
 
+<h1 align="center">React Book Club App</h1>
+
+# Table of content
+
+- Description
+- Built with
+- Author
+- Acknowledgements
+- React available scripts
+- Node available scripts
+
 # Project Description
 
 [BookClubApp](https://book-club-app.onrender.com/) is a social app build with MERN stack which works like a book club where users can exchange their impressions on different books that the administrators upload regularly. App functionality allows registering, sharing comments and books as well as edit all the resources.
 
-# Table of content
+Frontend hosted on render.com, backend hosted on Railway.app
 
 # Built with
 
@@ -14,13 +25,19 @@
 - Node
 - Redux
 
-# Installation
+# Author
 
-- Copy the repo
+- [Yaroslav Tashak](https://github.com/YarosThk)
 
-## Available Scripts
+# Acknowledgements
 
-In the project directory, you can run:
+- Reddit communities
+- Traversy Media
+- The Odin Project
+
+# React Available Scripts
+
+In the project Frontend directory, you can run:
 
 ### `npm start`
 
@@ -60,3 +77,23 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+# Node Available Scripts
+
+In the root directory:
+
+### `npm run dev`
+
+Runs concurrently the 'npm run server' and 'npm run client' without the need to run the commands separately.
+
+### `npm run server`
+
+Runs the backend using nodemon to keep track of server changes and restar the server.
+
+### `npm run client`
+
+Runs the frontend.
+
+### `npm run start`
+
+Runs the backend without nodemon.
